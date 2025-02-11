@@ -1,4 +1,13 @@
-{"login": {
+{"nav": {
+    "home": "Accueil",
+    "login": "Connexion",
+    "signUp": "S'inscrire",
+    "categories": "Catégories",
+    "favoriteStories": "Favoris",
+    "profil": "Profil",
+    "logout": "Déconnexion"
+  },
+  "login": {
     "title": "Connexion",
     "form": {
       "login": "Utilisateur",
@@ -9,7 +18,6 @@
       }
     }
   },
-
   "signUp": {
     "title": "Inscription",
     "form": {
@@ -23,24 +31,38 @@
       "signIn": "Déjà membre ?"
     }
   },
-
   "home": {
     "title": "Bienvenue sur TrustStory",
     "form": {
+      "titleForm": "Ajouter une nouvelle histoire",
       "title": "Titre de l'histoire",
+      "date": "Date de l'histoire",
+      "author": "Auteur de l'histoire",
       "description": "Description de l'histoire"
+    },
+    "card": {
+      "title": "Titre",
+      "date": "Date",
+      "author": "Auteur",
+      "description": "Description",
+      "more": "Lire la suite",
+      "less": "Lire moins"
     },
     "button": "Ajouter une nouvelle histoire"
   },
-
   "story" : {
     "button" : {
       "validation": "Ajouter",
       "cancel" : "Annuler"
     }
   },
-
-  "account": {
-
+  "profil": {
+    "title": "Profil"
+  },
+  "categories": {
+    "title": "Catégories"
+  },
+  "favorite": {
+    "title": "Histoires favorites"
   }
 }

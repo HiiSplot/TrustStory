@@ -1,9 +1,22 @@
 import React from 'react';
 import './nav.css'
 import { t } from 'i18next';
+import { useNavigate } from 'react-router-dom';
 
 export const Nav: React.FC = () => {
-  const [isUserConnected] = React.useState(true)
+
+  const navigate = useNavigate()
+  const isUserConnected = !!localStorage.getItem("authToken");
+
+  // useEffect(() => {
+  //   localStorage.setItem("isUserConnected", String(isUserConnected));
+  // }, [isUserConnected]);
+
+  const Logout = () => {
+    localStorage.removeItem("authToken");
+    navigate('/login')
+  }
+  
   return (
     <nav className='nav-container'>
       <div></div>
@@ -17,7 +30,7 @@ export const Nav: React.FC = () => {
                 <a href="/favorites">{t("nav.favoriteStories")}</a>
               </li>
               <li><a href="/profil">{t("nav.profil")}</a></li>
-              <li><a href="/logout">{t("nav.logout")}</a></li>
+              <li><a href="#" onClick={Logout}>{t("nav.logout")}</a></li>
             </>
           ) : (
             <>

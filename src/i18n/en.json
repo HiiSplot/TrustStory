@@ -46,8 +46,8 @@
       "date": "Date",
       "author": "Author",
       "description": "Description",
-      "more": "Lire la suite",
-      "less": "Lire moins"
+      "more": "Read more",
+      "less": "Read less"
     },
     "button": "Add a new story"
   },

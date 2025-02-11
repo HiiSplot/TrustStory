@@ -29,16 +29,19 @@ export const LoginForm: React.FC = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     try {
-      await onSignInValidate(loginData)
-      navigate('/home')
-      
+      const response = await onSignInValidate(loginData);
+      if (response.token) {
+        localStorage.setItem("authToken", response.token);
+        navigate('/home');
+      } else {
+        console.error("Authentification échouée : Pas de token reçu.");
+      }
     } catch (error) {
-      e.preventDefault()
-      console.log(error);
-      console.error('La connexion a échoué. Vérifie tes informations.')
+      console.error('La connexion a échoué. Vérifie tes informations.', error);
     }
-  }
+  };
 
   return(
     <>
