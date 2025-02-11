@@ -2,10 +2,7 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import { LoginForm } from "../components/login-form";
 
-type Login = {
-}
-
-export const Login: React.FC<Login> = () => {
+export const Login: React.FC = () => {
   const { t } = useTranslation()
 
   return(

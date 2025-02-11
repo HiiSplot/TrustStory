@@ -5,12 +5,14 @@ import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
 import './story-form.css'
+import { Story } from "../pages/Home";
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
+  stories: Story[]
 }
 
-export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
+export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
   const { t } = useTranslation()
 
   const dateNow = new Date().toISOString().split('T')[0]
@@ -22,10 +24,7 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('title', title)
-    console.log('date', date)
-    console.log('author', author)
-    console.log('description', description)
+    stories.push({ title, date, author, description })
     setIsOpened(false)
   }
 

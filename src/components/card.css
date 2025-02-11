@@ -1,0 +1,45 @@
+.card-container {
+  width: 50vh;
+  padding: 20px;
+  background-color: #a3b4ff2a;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.large {
+  height: auto
+
+}
+
+.min {
+  height: 350px;
+}
+
+.card-container__title {
+  margin-top: 0;
+}
+
+.card-container__subtitle {
+  margin-bottom: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.card-container__description-min {
+  text-align: justify;
+  display: -webkit-box; 
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-container__description-max {
+  text-align: justify;
+}
+
+.card-container__link {
+  cursor: pointer;
+}

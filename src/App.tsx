@@ -3,6 +3,7 @@ import './App.css'
 import "./i18n/i18n"
 import { router } from './router/AppRoutes'
 import React from 'react';
+import { Nav } from './components/nav';
 
 export const App: React.FC = () => {
   
@@ -14,7 +15,9 @@ export const App: React.FC = () => {
   }, []);
 
   return(
-    <RouterProvider router={router} />
+    <>
+      <Nav />
+      <RouterProvider router={router} />
+    </>
   )
 }
-

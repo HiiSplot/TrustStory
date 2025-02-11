@@ -6,32 +6,26 @@ import { StoryForm } from "../components/story-form"
 import { GridList, GridListItem } from "react-aria-components"
 import { Card } from "../components/card"
 
+export type Story = {
+  title: string,
+  date: string,
+  author: string,
+  description: string
+}
+
+const stories: Story[] = [
+  {
+    title: "Charizard",
+    date: "2021-10-20",
+    author: "Ash Ketchum",
+    description: "Charizard is a Fire/Flying-type Pokémon introduced in Generation I. It evolves from Charmeleon starting at level 36. It is the final form of Charmander. Charizard is a Fire/Flying-type Pokémon introduced in Generation I. It evolves from Charmeleon starting at level 36. It is the final form of Charmander."
+  }
+]
+
 export const Home: React.FC = () => {
   const { t } = useTranslation()
 
   const [isOpened, setIsOpened] = React.useState(false)
-
-  type Story = {
-    title: string,
-    date: string,
-    author: string,
-    description: string
-  }
-
-  const stories: Story[] = [
-    {
-      title: "Charizard",
-      date: "2021-10-20",
-      author: "Ash Ketchum",
-      description: "Charizard is a Fire/Flying-type Pokémon introduced in Generation I. It evolves from Charmeleon starting at level 36. It is the final form of Charmander."
-    },
-    {
-      title: "Lorem Ipsum",
-      date: "2021-10-20",
-      author: "Ipsum Lorem",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, pariatur?"
-    }
-  ]
 
   return(
     <>
@@ -39,24 +33,20 @@ export const Home: React.FC = () => {
       <Button labelKey={t("home.button")} onClick={() => setIsOpened(true)} />
 
       <MyModal isOpened={isOpened}>
-        <StoryForm setIsOpened={setIsOpened} />
+        <StoryForm setIsOpened={setIsOpened} stories={stories} />
       </MyModal>
 
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <GridList aria-label="Favorite pokemon" selectionMode="multiple">
-          <GridListItem textValue="Charizard">
-          {stories.length > 0 ? (
-            <>
-              {stories.map((story) => (
-                <Card key={story.title} title={story.title} date={story.date} author={story.author} description={story.description} />
-              ))}
-            </>
-          ) : (
-          <p>No stories</p>
-          )}
+      <GridList aria-label="Favorite pokemon" selectionMode="multiple" style={{ maxWidth: '100vh', display: 'grid', gap: '20px' }}>
+      {stories.length > 0 ? (
+        stories.map((story) => (
+          <GridListItem key={story.title} textValue="Charizard">
+            <Card title={story.title} date={story.date} author={story.author} description={story.description} />
           </GridListItem>
-        </GridList>
-      </div>
+        ))
+      ) : (
+        <p>No stories</p>
+      )}
+      </GridList>
     </>
   )
 }
