@@ -1,11 +1,8 @@
 import React from 'react';
 import './nav.css'
 import { t } from 'i18next';
-import { useNavigate } from 'react-router-dom';
 
 export const Nav: React.FC = () => {
-
-  const navigate = useNavigate()
   const isUserConnected = !!localStorage.getItem("authToken");
 
   // useEffect(() => {
@@ -14,7 +11,6 @@ export const Nav: React.FC = () => {
 
   const Logout = () => {
     localStorage.removeItem("authToken");
-    navigate('/login')
   }
   
   return (
