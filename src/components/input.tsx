@@ -5,17 +5,27 @@ type Input = {
   name: string
   type: string
   value: string
+  min?: string
+  max?: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const Input: React.FC<Input> = ({ textKey, type, name, value, onChange }) => {
+export const Input: React.FC<Input> = ({ textKey, type, name, value, min, max, onChange }) => {
 
   return(
-    <div>
-      <div>
-        <label htmlFor="">{textKey}</label>
+    <div style={{ padding: '3px 0'}}>
+      <div >
+        <label style={{ width: '100%' }}>{textKey}</label>
       </div>
-      <input type={type} name={name} value={value} onChange={onChange}/>
+      <input
+        style={{ width: '100%' }}
+        type={type}
+        name={name}
+        value={value}
+        min={min}
+        max={max}
+        onChange={onChange}
+      />
     </div>
   )
 }

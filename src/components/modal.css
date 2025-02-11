@@ -11,8 +11,9 @@
 
 .modal {
   background-color: rgb(255, 255, 255);
+  border-radius: 10px;
   width: 50vw;
-  height: 60vh;
+  height: auto;
   position: absolute;
   top: 50%;
   left: 50%;

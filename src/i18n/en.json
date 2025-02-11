@@ -24,8 +24,12 @@
     }
   },
   "home": {
+    "title": "Welcome to TrustStory",
     "form": {
-      "title": "Welcome to TrustStory",
+      "titleForm": "Add a new story",
+      "title": "Title of your story",
+      "date": "Date of your story",
+      "author": "Author of your story",
       "description": "Story's description"
     },
     "button": "Add a new story"

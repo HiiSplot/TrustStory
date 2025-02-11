@@ -2,16 +2,25 @@ import React from "react"
 
 type TextArea = {
   textKey: string
+  name: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-export const TextArea: React.FC<TextArea> = ({ textKey }) => {
+export const TextArea: React.FC<TextArea> = ({ textKey, name, value, onChange }) => {
 
   return(
-    <div>
+    <div style={{ padding: '5px 0'}}>
       <div>
-        <label htmlFor="">{textKey}</label>
+        <label>{textKey}</label>
       </div>
-      <textarea rows={10}/>
+      <textarea
+        style={{ width: '100%' }}
+        rows={10}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   )
 }
