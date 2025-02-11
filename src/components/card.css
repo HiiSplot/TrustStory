@@ -1,9 +1,10 @@
 .card-container {
   width: 50vh;
-  padding: 20px;
+  padding: 30px;
   background-color: #a3b4ff2a;
   border-radius: 10px;
   margin: 10px;
+  position: relative;
 }
 
 .large {
@@ -13,6 +14,16 @@
 
 .min {
   height: 350px;
+}
+
+.card-container__icons {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 20px;
+  cursor: pointer;
+  color: #747bff;
+  background-color: transparent;
 }
 
 .card-container__title {
@@ -25,6 +36,10 @@
 
 p {
   margin: 0;
+}
+
+.rotate {
+  rotate: 180deg;
 }
 
 .card-container__description-min {

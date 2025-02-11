@@ -15,5 +15,12 @@
   text-decoration: none;
   list-style: none;
   gap: 100px;
-  padding: 0 30px;
+  padding: 20px 30px;
+}
+
+.nav-container__list__sign-up {
+  background-color:#747bff;
+  padding: 10px;
+  color: white;
+  border-radius: 3px;
 }

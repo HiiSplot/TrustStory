@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next"
-import { Button } from "../components/button"
 import React from "react"
 import { MyModal } from "../components/modal"
 import { StoryForm } from "../components/story-form"
 import { GridList, GridListItem } from "react-aria-components"
 import { Card } from "../components/card"
+import { IconButton } from "../components/icon-button"
 
 export type Story = {
   title: string,
@@ -30,13 +30,14 @@ export const Home: React.FC = () => {
   return(
     <>
       <h1>{t("home.title")}</h1>
-      <Button labelKey={t("home.button")} onClick={() => setIsOpened(true)} />
+
+      <IconButton iconName='add' labelKey={t("home.button")} onClick={() => setIsOpened(true)} />
 
       <MyModal isOpened={isOpened}>
         <StoryForm setIsOpened={setIsOpened} stories={stories} />
       </MyModal>
 
-      <GridList aria-label="Favorite pokemon" selectionMode="multiple" style={{ maxWidth: '100vh', display: 'grid', gap: '20px' }}>
+      <GridList aria-label="Favorite pokemon" style={{ maxWidth: '100vh', display: 'grid', gap: '20px' }}>
       {stories.length > 0 ? (
         stories.map((story) => (
           <GridListItem key={story.title} textValue="Charizard">

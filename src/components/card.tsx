@@ -12,7 +12,12 @@ export const Card: React.FC<Card> = ({ title, date, author, description }) => {
 
   const [isTruncated, setIsTruncated] = React.useState<boolean>(false)
   const [isLinkClicked, setIsLinkClicked] = React.useState<boolean>(false)
+  const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
+
+  const favoriteToggle = () => {
+    setIsFavorite(!isFavorite)
+  }
 
   useEffect(() => {
     const element = descriptionRef.current
@@ -20,11 +25,16 @@ export const Card: React.FC<Card> = ({ title, date, author, description }) => {
       setIsTruncated(element.scrollHeight > element.clientHeight)
     }
   }, [description])
-  console.log(isLinkClicked);
-
 
   return(
     <div className={isLinkClicked ? 'card-container large' : 'card-container min'}> 
+      <div onClick={favoriteToggle} className='card-container__icons'>
+        {isFavorite ? (
+          <span className="material-symbols-outlined">heart_check</span>
+        ) : (
+          <span className="material-symbols-outlined">heart_plus</span>
+        )}
+      </div>
       <h2 className='card-container__title'>{title}</h2>
       <div>
         <h3 className='card-container__subtitle'>Date</h3>
@@ -40,9 +50,17 @@ export const Card: React.FC<Card> = ({ title, date, author, description }) => {
       </div>
       {isTruncated && (
         isLinkClicked ? (
-        <a onClick={() => setIsLinkClicked(false)} className='card-container__link'>Lire moins</a>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#747bff' }}>
+            <a onClick={() => setIsLinkClicked(false)} className='card-container__link'>Lire moins </a>
+            <span className="material-symbols-outlined">keyboard_arrow_up</span>
+          </div>
       ) : (
-        <a onClick={() => setIsLinkClicked(true)} className='card-container__link'>Lire la suite</a>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#747bff' }}>
+          <a onClick={() => setIsLinkClicked(true)} className='card-container__link '>Lire la suite </a>
+          <div className={isLinkClicked ? '' : 'rotate'}>
+            <span className="material-symbols-outlined">keyboard_arrow_up</span>
+          </div>
+        </div>
       )
     )}
     </div>

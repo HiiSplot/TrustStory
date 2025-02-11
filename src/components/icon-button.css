@@ -1,0 +1,7 @@
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  gap: 3px;
+}
