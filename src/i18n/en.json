@@ -1,0 +1,42 @@
+{"login": { 
+    "title": "Login",
+    "welcome": "TrustStory",
+    "form": {
+      "login": "User",
+      "password": "Password",
+      "button":{
+        "connection": "Sign in",
+        "inscription": "Sign up"
+      }
+    }
+  },
+  "signUp": {
+    "title": "Sign up",
+    "form": {
+      "user": "Username",
+      "password": "Password",
+      "mail": "Email",
+      "birthDate": "Birthdate"
+    },
+    "button": {
+      "signUp": "Sign up",
+      "signIn": "Already user ?"
+    }
+  },
+  "home": {
+    "form": {
+      "title": "Welcome to TrustStory",
+      "description": "Story's description"
+    },
+    "button": "Add a new story"
+  },
+  "story" : {
+    "button" : {
+      "validation": "Add",
+      "cancel" : "Cancel"
+    }
+  },
+  "account": {
+
+  }
+}
