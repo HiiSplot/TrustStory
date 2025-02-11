@@ -49,6 +49,7 @@ Utilise Google Authenticator ou Twilio pour l'OTP.
 Upload sécurisé d’images (avatars, illustrations d’histoires)
 Stockage des images sur Cloudinary ou Firebase Storage.
 Vérification du type de fichier avant upload.
+
 📊 Idées pour un Dashboard / Statistiques
 Dashboard administrateur pour suivre les tendances
 Graphiques sur le nombre d’histoires publiées par mois.
@@ -58,6 +59,7 @@ Système de badges et récompenses
 Récompenses pour les utilisateurs actifs :
 Badge “Auteur confirmé” après 10 histoires postées.
 Badge “Histoire virale” après 500 likes.
+
 🚀 Bonus : Idées Fun
 Ajout d’une voix narratrice (Text-to-Speech)
 L’histoire peut être lue à haute voix via Google Text-to-Speech.
@@ -67,6 +69,7 @@ Un bouton "Je me laisse surprendre" qui affiche une histoire random.
 Système de défis d’écriture
 Chaque semaine, un thème imposé ("Raconte une histoire en 100 mots").
 Les meilleures histoires sont mises en avant.
+
 💡 Que choisir en priorité ?
 Si tu veux rendre ton projet plus complet et impressionner tes profs, voici une roadmap prioritaire : 1️⃣ Authentification avancée (2FA, avatars sécurisés)
 2️⃣ Ajout de commentaires + likes

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import './card.css'
+import { t } from 'i18next'
 
 type Card = {
   title: string
@@ -37,26 +38,36 @@ export const Card: React.FC<Card> = ({ title, date, author, description }) => {
       </div>
       <h2 className='card-container__title'>{title}</h2>
       <div>
-        <h3 className='card-container__subtitle'>Date</h3>
+        <h3 className='card-container__subtitle'>
+          {t("home.card.date")}
+        </h3>
         <p className='card-container__date'>{date}</p>
       </div>
       <div>
-        <h3 className='card-container__subtitle'>Auteur</h3>
+        <h3 className='card-container__subtitle'>
+          {t("home.card.author")}
+        </h3>
         <p className='card-container__author'>{author}</p>
       </div>
       <div>
-        <h3 className='card-container__subtitle'>Description</h3>
+        <h3 className='card-container__subtitle'>
+          {t("home.card.description")}
+        </h3>
         <p ref={descriptionRef} className={isLinkClicked ? 'card-container__description-max' : 'card-container__description-min'}>{description}</p>
       </div>
       {isTruncated && (
         isLinkClicked ? (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#747bff' }}>
-            <a onClick={() => setIsLinkClicked(false)} className='card-container__link'>Lire moins </a>
+            <a onClick={() => setIsLinkClicked(false)} className='card-container__link'>
+              {t("home.card.less")} 
+            </a>
             <span className="material-symbols-outlined">keyboard_arrow_up</span>
           </div>
       ) : (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#747bff' }}>
-          <a onClick={() => setIsLinkClicked(true)} className='card-container__link '>Lire la suite </a>
+          <a onClick={() => setIsLinkClicked(true)} className='card-container__link '>
+            {t("home.card.more")} 
+          </a>
           <div className={isLinkClicked ? '' : 'rotate'}>
             <span className="material-symbols-outlined">keyboard_arrow_up</span>
           </div>

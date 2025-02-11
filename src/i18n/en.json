@@ -1,4 +1,13 @@
-{"login": { 
+{"nav": {
+    "home": "Home",
+    "login": "Login",
+    "signUp": "Sign up",
+    "categories": "Categories",
+    "favoriteStories": "Favorite stories",
+    "profil": "Profil",
+    "logout": "Logout"
+  },
+  "login": { 
     "title": "Login",
     "welcome": "TrustStory",
     "form": {
@@ -32,6 +41,14 @@
       "author": "Author of your story",
       "description": "Story's description"
     },
+    "card": {
+      "title": "Title",
+      "date": "Date",
+      "author": "Author",
+      "description": "Description",
+      "more": "Lire la suite",
+      "less": "Lire moins"
+    },
     "button": "Add a new story"
   },
   "story" : {
@@ -40,7 +57,13 @@
       "cancel" : "Cancel"
     }
   },
-  "account": {
-
+  "profil": {
+    "title": "Profil"
+  },
+  "categories": {
+    "title": "Categories"
+  },
+  "favorite": {
+    "title": "Favorite sotries"
   }
 }
