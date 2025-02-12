@@ -1,0 +1,41 @@
+.menu-items {
+  cursor: pointer;
+  background-color: white;
+  width: 100%;
+  padding: .286rem .700rem
+}
+
+.filters-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.filters-container__items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 99px;
+}
+
+.filter-container__items__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 25px;
+  border-radius: 99px;
+  padding: 10px 10px;
+  margin: 0;
+  background-color: #cecece;
+}
+
+.filter-container__items__span {
+  height: 25px;
+  width: 25px;
+  color: #969696;
+}

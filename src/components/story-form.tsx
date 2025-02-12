@@ -5,7 +5,7 @@ import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
 import './story-form.css'
-import { Story } from "../pages/Home";
+import { Story } from "../pages/Stories";
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>

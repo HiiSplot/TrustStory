@@ -2,6 +2,12 @@ import React from 'react';
 import './nav.css'
 import { t } from 'i18next';
 
+export type Items = {
+  id: number
+  name: string
+  onAction: () => void
+}
+
 export const Nav: React.FC = () => {
   const isUserConnected = !!localStorage.getItem("authToken");
 
@@ -18,10 +24,9 @@ export const Nav: React.FC = () => {
       <div></div>
       <div>
         <ul className='nav-container__list'>
-          <li><a href="/home">{t("nav.home")}</a></li>
+          <li><a href="/stories">{t("nav.home")}</a></li>
           {isUserConnected ? (
             <>
-              <li><a href="/categories">{t("nav.categories")}</a></li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#747bff' }}>
                 <a href="/favorites">{t("nav.favoriteStories")}</a>
               </li>
