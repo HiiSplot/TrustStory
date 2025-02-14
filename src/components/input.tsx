@@ -1,4 +1,5 @@
 import React from "react"
+import './input.css'
 
 type Input = {
   textKey: string
@@ -13,12 +14,12 @@ type Input = {
 export const Input: React.FC<Input> = ({ textKey, type, name, value, min, max, onChange }) => {
 
   return(
-    <div style={{ padding: '3px 0'}}>
+    <div style={{ padding: '3px 0', marginBottom: '7px' }}>
       <div >
         <label style={{ width: '100%' }}>{textKey}</label>
       </div>
       <input
-        style={{ width: '100%' }}
+        className="input"
         type={type}
         name={name}
         value={value}

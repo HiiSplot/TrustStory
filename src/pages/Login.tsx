@@ -49,7 +49,7 @@ export const Login: React.FC = () => {
       <div>
         <h1>{t("login.title")}</h1>
       </div>
-      <Form onSubmit={onSubmit} style={{ width: '60%' }}>
+      <Form onSubmit={onSubmit} style={{ width: '40%' }}>
         <Input textKey={t("login.form.login")}type="text" name="user" value={loginData.user} onChange={handleChange}/>
         <Input textKey={t("login.form.password")} type="password" name="password"  value={loginData.password} onChange={handleChange}/>
         <div className="form__button-container">
