@@ -14,7 +14,7 @@
       "password": "Mot de passe",
       "button":{
         "connection": "Connexion",
-        "inscription": "Inscription"
+        "inscription": "Créer un compte"
       }
     }
   },

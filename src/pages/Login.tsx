@@ -4,6 +4,7 @@ import { Form, Link, useNavigate } from "react-router-dom";
 import { Input } from "../components/input";
 import { Button } from "../components/button";
 import { onSignInValidate } from "../api/api";
+import './style/form.css'
 
 type LoginData = {
   user: string,
@@ -44,20 +45,20 @@ export const Login: React.FC = () => {
   };
 
   return(
-    <>
-    <div>
-      <h1>{t("login.title")}</h1>
-    </div>
-    <Form onSubmit={onSubmit}>
-      <Input textKey={t("login.form.login")}type="text" name="user" value={loginData.user} onChange={handleChange}/>
-      <Input textKey={t("login.form.password")} type="password" name="password"  value={loginData.password} onChange={handleChange}/>
+    <div className="form">
       <div>
-        <Button labelKey={t("login.form.button.connection")} type="submit"/>
+        <h1>{t("login.title")}</h1>
       </div>
-    </Form>
-    <div>
-      <Link to="/sign-up">{t("login.form.button.inscription")}</Link>
+      <Form onSubmit={onSubmit} style={{ width: '60%' }}>
+        <Input textKey={t("login.form.login")}type="text" name="user" value={loginData.user} onChange={handleChange}/>
+        <Input textKey={t("login.form.password")} type="password" name="password"  value={loginData.password} onChange={handleChange}/>
+        <div className="form__button-container">
+          <Button labelKey={t("login.form.button.connection")} type="submit"/>
+        </div>
+      </Form>
+      <div>
+        <Link to="/sign-up">{t("login.form.button.inscription")}</Link>
+      </div>
     </div>
-  </>
   )
 }

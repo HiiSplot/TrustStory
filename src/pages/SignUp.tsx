@@ -4,6 +4,7 @@ import { Form, Link, useNavigate } from "react-router-dom";
 import { onSignUpValidate } from "../api/api";
 import { Input } from "../components/input";
 import { Button } from "../components/button";
+import './style/form.css'
 
 interface FormData {
   user: string;
@@ -44,9 +45,9 @@ export const SignUp: React.FC = () => {
   }
 
   return(
-    <>
+    <div className="form">
       <h1>{t("signUp.title")}</h1>
-      <Form onSubmit={onSubmitForm}>
+      <Form onSubmit={onSubmitForm} style={{ width: '60%' }}>
         <Input
           textKey={t("signUp.form.user")}
           type="text"
@@ -75,7 +76,7 @@ export const SignUp: React.FC = () => {
           value={formData.date}
           onChange={handleChange}
         />
-        <div>
+        <div className="form__button-container">
           <Button
             labelKey={t("signUp.button.signUp")}
             type="submit"
@@ -87,6 +88,6 @@ export const SignUp: React.FC = () => {
             {t("signUp.button.signIn")}
         </Link>
       </div>
-    </>
+    </div>
   )
 }

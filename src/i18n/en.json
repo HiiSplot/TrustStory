@@ -15,7 +15,7 @@
       "password": "Password",
       "button":{
         "connection": "Sign in",
-        "inscription": "Sign up"
+        "inscription": "Create an account"
       }
     }
   },
