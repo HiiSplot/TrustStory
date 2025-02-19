@@ -5,6 +5,7 @@ import { Input } from "../components/input";
 import { Button } from "../components/button";
 import { onSignInValidate } from "../api/api";
 import './style/form.css'
+import { useAuth } from "../context/AuthContext";
 
 type LoginData = {
   user: string,
@@ -14,6 +15,7 @@ type LoginData = {
 export const Login: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const login = useAuth()
 
   const [loginData, setLoginData] = useState<LoginData>({
     user: '',
@@ -33,9 +35,11 @@ export const Login: React.FC = () => {
   
     try {
       const response = await onSignInValidate(loginData);
+      
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-        navigate('/home');
+        login.login(response.token);
+        navigate('/profil');
       } else {
         console.error("Authentification échouée : Pas de token reçu.");
       }

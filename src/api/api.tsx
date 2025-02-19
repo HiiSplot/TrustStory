@@ -10,6 +10,74 @@ interface LoginData {
   password: string;
 }
 
+interface StoryData {
+  title: string
+  date: string
+  author: string
+  description: string
+}
+
+export const getCategories = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/categories', {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData
+    } else {
+      throw new Error("Erreur lors de la récupération des catégories");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export const getStories = async (filters = {}) => {
+  const queryParams = new URLSearchParams(filters).toString();
+  const url = `http://localhost:3000/stories?${queryParams}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData
+    } else {
+      throw new Error("Erreur lors de la récupération des histoires");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export const onCreateStory = async (data: StoryData) => {
+  try {    
+    const response = await fetch('http://localhost:3000/stories', {
+      method: 'POST',
+      headers: {'Content-Type' : 'application/json'},
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {      
+      const responseData = await response.json();
+      return responseData
+    } else {
+      throw new Error("Erreur lors de la création de l'histoire");
+    }
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
 export const onSignUpValidate = async (data: SignUpData) => {
 
   try {    
@@ -37,9 +105,9 @@ export const onSignInValidate = async (data: LoginData) => {
       method: 'POST',
       headers: {'Content-Type' : 'application/json'},
       body: JSON.stringify(data)
-    });
+    })
 
-    if (response.ok) {
+    if (response.ok) {      
       const responseData = await response.json()
       return responseData
     } else {

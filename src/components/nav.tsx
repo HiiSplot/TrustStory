@@ -1,6 +1,7 @@
 import React from 'react';
 import './nav.css'
 import { t } from 'i18next';
+import { useAuth } from '../context/AuthContext';
 
 export type Items = {
   id: number
@@ -9,15 +10,7 @@ export type Items = {
 }
 
 export const Nav: React.FC = () => {
-  const isUserConnected = !!localStorage.getItem("authToken");
-
-  // useEffect(() => {
-  //   localStorage.setItem("isUserConnected", String(isUserConnected));
-  // }, [isUserConnected]);
-
-  const Logout = () => {
-    localStorage.removeItem("authToken");
-  }
+  const { isUserConnected, logout } = useAuth();
   
   return (
     <nav className='nav-container'>
@@ -31,7 +24,7 @@ export const Nav: React.FC = () => {
                 <a href="/favorites">{t("nav.favoriteStories")}</a>
               </li>
               <li><a href="/profil">{t("nav.profil")}</a></li>
-              <li><a href="#" onClick={Logout}>{t("nav.logout")}</a></li>
+              <li><a href="/login" onClick={logout}>{t("nav.logout")}</a></li>
             </>
           ) : (
             <>

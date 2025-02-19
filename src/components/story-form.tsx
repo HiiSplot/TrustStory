@@ -6,6 +6,7 @@ import { TextArea } from "./text-area";
 import React from "react";
 import './story-form.css'
 import { Story } from "../pages/Stories";
+import { onCreateStory } from "../api/api";
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
@@ -24,7 +25,9 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    stories.push({ title, date, author, description })
+    console.log({ title, date, author, description });
+    
+    onCreateStory({ title, date, author, description })
     setIsOpened(false)
   }
 
@@ -54,6 +57,18 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
+         <select name="categories" id="">
+          <option value="action">Action</option>
+          <option value="adventure">Adventure</option>
+          <option value="comedy">Comedy</option>
+          <option value="crime">Crime</option>
+          <option value="drama">Drama</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="historical">Historical</option>
+          <option value="horror">Horror</option>
+          <option value="mystery">Mystery</option>
+          <option value="romance">Romance</option>
+         </select>
         <TextArea
           textKey={t("home.form.description")}
           name="description"
