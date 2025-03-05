@@ -27,18 +27,18 @@ export const Stories: React.FC = () => {
   const [isOpened, setIsOpened] = React.useState(false)
   const [stories, setStories] = React.useState<Story[]>([]);
   const [categories, setCategories] = React.useState<Categories[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const data = await getStories();
         setStories(data);
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         console.error('Erreur lors de la récupération des histoires :', error);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -48,13 +48,13 @@ export const Stories: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const data = await getCategories();
         setCategories(data);        
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         console.error('Erreur lors de la récupération des histoires :', error);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -123,6 +123,8 @@ export const Stories: React.FC = () => {
         )}
       </div>
 
+      {isLoading ? <p>Loading...</p>
+      :
       <GridList aria-label="Stories list" style={{ maxWidth: '100vh', display: 'grid', gap: '20px' }}>
       {stories.length > 0 ? (
         stories.map((story, index) => (
@@ -139,6 +141,7 @@ export const Stories: React.FC = () => {
         <p>No stories available</p>
       )}
       </GridList>
+      }
       
       <MyModal isOpened={isOpened}>
         <StoryForm setIsOpened={setIsOpened} stories={stories} />

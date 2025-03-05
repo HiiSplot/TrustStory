@@ -8,10 +8,11 @@ type Input = {
   value: string
   min?: string
   max?: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  isDisabled?: boolean
 }
 
-export const Input: React.FC<Input> = ({ textKey, type, name, value, min, max, onChange }) => {
+export const Input: React.FC<Input> = ({ textKey, type, name, value, min, max, onChange, isDisabled }) => {
 
   return(
     <div style={{ padding: '3px 0', marginBottom: '7px' }}>
@@ -26,6 +27,7 @@ export const Input: React.FC<Input> = ({ textKey, type, name, value, min, max, o
         min={min}
         max={max}
         onChange={onChange}
+        disabled={isDisabled}
       />
     </div>
   )
