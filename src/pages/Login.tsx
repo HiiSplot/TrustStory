@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Form, Link, useNavigate } from "react-router-dom";
-import { Input } from "../components/input";
-import { Button } from "../components/button";
-import { onSignInValidate } from "../api/api";
+import { Form, Link, useNavigate } from "react-router-dom"
+import { Input } from "../components/input"
+import { Button } from "../components/button"
+import { onSignInValidate } from "../api/api"
+import { useAuth } from "../context/AuthContext"
 import './style/form.css'
-import { useAuth } from "../context/AuthContext";
 
 type LoginData = {
   user: string,
