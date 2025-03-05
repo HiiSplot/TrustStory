@@ -21,10 +21,10 @@
 .nav-container__list__sign-up {
   background-color:#f8b179;
   padding: 10px;
-  color: #1f2a44;
+  color: #1F2A44;
   border-radius: 3px;
 }
 
-a:hover {
+.nav-container__list__sign-up:hover {
   color: #d46d1e
 }
