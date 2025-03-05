@@ -24,3 +24,7 @@
   color: #1f2a44;
   border-radius: 3px;
 }
+
+a:hover {
+  color: #d46d1e
+}
