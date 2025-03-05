@@ -8,6 +8,7 @@ import { IconButton } from "../components/icon-button"
 import '../components/filter.css'
 import { Filter } from "../components/filter"
 import { getCategories, getStories } from "../api/api"
+import { Title } from "../components/title"
 
 export type Story = {
   title: string,
@@ -94,7 +95,7 @@ export const Stories: React.FC = () => {
 
   return(
     <>
-      <h1>{t("home.title")}</h1>
+      <Title title={t("home.title")} />
 
       <IconButton
         iconName='add'

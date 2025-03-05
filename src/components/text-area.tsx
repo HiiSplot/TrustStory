@@ -15,7 +15,7 @@ export const TextArea: React.FC<TextArea> = ({ textKey, name, value, onChange })
         <label>{textKey}</label>
       </div>
       <textarea
-        style={{ width: '100%' }}
+        style={{ width: '100%', background: '#E8F0FE', border: 'none', padding: '5px' }}
         rows={10}
         name={name}
         value={value}

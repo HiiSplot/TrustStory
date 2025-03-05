@@ -16,7 +16,8 @@ interface FormData {
 export const SignUp: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-
+  const date = new Date().toLocaleDateString('en-CA');
+  
   const [formData, setFormData] = useState<FormData>({
       user: '',
       email: '',
@@ -73,6 +74,7 @@ export const SignUp: React.FC = () => {
           textKey={t("signUp.form.birthDate")}
           type="date"
           name="date"
+          max={date}
           value={formData.date}
           onChange={handleChange}
         />

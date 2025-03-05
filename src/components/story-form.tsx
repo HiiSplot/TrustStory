@@ -57,7 +57,7 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
-         <select name="categories" id="">
+         <select name="categories" id="" style={{ width: '101.5%', padding: '10px', background: '#E8F0FE', border: 'none' }}>
           <option value="action">Action</option>
           <option value="adventure">Adventure</option>
           <option value="comedy">Comedy</option>
