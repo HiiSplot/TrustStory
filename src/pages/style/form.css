@@ -6,8 +6,8 @@
   width: 70vh;
   padding: 30px;
   background-color: #a3b4ff2a;
-  border-radius: 10px;
   position: relative;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .form__button-container {
