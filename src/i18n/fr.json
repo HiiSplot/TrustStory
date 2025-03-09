@@ -35,7 +35,7 @@
   "home": {
     "title": "Bienvenue sur TrustStory",
     "form": {
-      "titleForm": "Ajouter une nouvelle histoire",
+      "titleForm": "Ajouter une histoire",
       "title": "Titre de l'histoire",
       "date": "Date de l'histoire",
       "author": "Auteur de l'histoire",
@@ -49,7 +49,7 @@
       "more": "Lire la suite",
       "less": "Lire moins"
     },
-    "button": "Ajouter une nouvelle histoire"
+    "button": "Ajouter une histoire"
   },
   "story" : {
     "button" : {

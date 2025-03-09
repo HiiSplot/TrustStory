@@ -19,7 +19,7 @@ export const Filter: React.FC<FilterProps> = ({ title, items, handleAction }) =>
             key={item.id}
             onAction={() => handleAction(item.id)}
           >
-            {item.name}
+            {item.category_name}
           </MenuItem>
         )}
       </CustomMenu>

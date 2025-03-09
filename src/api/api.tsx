@@ -118,3 +118,57 @@ export const onSignInValidate = async (data: LoginData) => {
     throw error;
   }
 }
+
+export const getInformations = async () => {
+  const userId = localStorage.getItem('userId');
+  try {
+    const response = await fetch(`http://localhost:3000/profil/${userId}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const postInFavorites = async (storyId: number) => {
+  const userId = localStorage.getItem('userId');
+  try {
+    const response = await fetch(`http://localhost:3000/stories/${storyId}/${userId}`, {
+      method: 'POST',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const getFavorites = async () => {
+  const userId = localStorage.getItem('userId');
+  try {
+    const response = await fetch(`http://localhost:3000/favorites/${userId}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}

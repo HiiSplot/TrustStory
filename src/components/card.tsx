@@ -1,23 +1,28 @@
 import React, { useEffect } from 'react'
 import './card.css'
 import { t } from 'i18next'
+import { postInFavorites } from '../api/api'
 
 type Card = {
+  id: number
   title: string
   date: string
   author: string
   description: string
+  FromStories?: boolean
 }
 
-export const Card: React.FC<Card> = ({ title, date, author, description }) => {
+export const Card: React.FC<Card> = ({ id, title, date, author, description, FromStories }) => {
 
   const [isTruncated, setIsTruncated] = React.useState<boolean>(false)
   const [isLinkClicked, setIsLinkClicked] = React.useState<boolean>(false)
   const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
 
-  const favoriteToggle = () => {
+  const favoriteToggle = (storyId: number) => {
     setIsFavorite(!isFavorite)
+    postInFavorites(storyId)
+    
   }
 
   useEffect(() => {
@@ -29,11 +34,15 @@ export const Card: React.FC<Card> = ({ title, date, author, description }) => {
 
   return(
     <div className={isLinkClicked ? 'card-container large' : 'card-container min'}> 
-      <div onClick={favoriteToggle} className='card-container__icons'>
-        {isFavorite ? (
-          <span className="material-symbols-outlined">heart_check</span>
+      <div onClick={() => favoriteToggle(id)} className='card-container__icons'>
+        {FromStories ? (
+          isFavorite ? (
+            <span className="material-symbols-outlined">heart_check</span>
+          ) : (
+            <span className="material-symbols-outlined">heart_plus</span>
+          )
         ) : (
-          <span className="material-symbols-outlined">heart_plus</span>
+          <span className="material-symbols-outlined">delete</span>
         )}
       </div>
       <h2 className='card-container__title'>{title}</h2>

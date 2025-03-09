@@ -36,8 +36,8 @@ export const SignUp: React.FC = () => {
   const onSubmitForm = async (e: React.FormEvent) => {
 
     try {
-    await onSignUpValidate(formData)
-    navigate('/login')
+      await onSignUpValidate(formData)
+      navigate('/login')
     } catch (error) {
       e.preventDefault()
       console.log(error);

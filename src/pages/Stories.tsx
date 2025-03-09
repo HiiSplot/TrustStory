@@ -11,6 +11,7 @@ import { getCategories, getStories } from "../api/api"
 import { Title } from "../components/title"
 
 export type Story = {
+  id: number,
   title: string,
   date: string,
   author: string,
@@ -19,7 +20,7 @@ export type Story = {
 
 export type Categories = {
   id: number,
-  name: string,
+  category_name: string,
   isSelected?: boolean
 }
 
@@ -30,44 +31,42 @@ export const Stories: React.FC = () => {
   const [categories, setCategories] = React.useState<Categories[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  useEffect(() => {
-    const fetchStories = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getStories();
-        setStories(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des histoires :', error);
-        setIsLoading(false);
-      }
-    };
+  const fetchCategories = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getCategories();
+      setCategories(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des categories :', error);
+      setIsLoading(false);
+    }
+  };
 
+  const fetchStories = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getStories();
+      setStories(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des histoires :', error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchStories();
-  }, []);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getCategories();
-        setCategories(data);        
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des histoires :', error);
-        setIsLoading(false);
-      }
-    };
-
     fetchCategories();
   }, []);
 
+
   const sortItems: Categories[] = [
-    { id: 1, name: 'Les + récentes', isSelected: false },
-    { id: 2, name: 'Les - récentes', isSelected: false },
-    { id: 3, name: 'Les + likées', isSelected: false },
-    { id: 4, name: 'Les - likées', isSelected: false },
-    { id: 5, name: 'Histoires que j\'ai likées', isSelected: false }
+    { id: 1, category_name: 'Les + récentes', isSelected: false },
+    { id: 2, category_name: 'Les - récentes', isSelected: false },
+    { id: 3, category_name: 'Les + likées', isSelected: false },
+    { id: 4, category_name: 'Les - likées', isSelected: false },
+    { id: 5, category_name: 'Histoires que j\'ai likées', isSelected: false }
   ];
   
   const categoriesAction = (id: number) => {
@@ -97,26 +96,28 @@ export const Stories: React.FC = () => {
     <>
       <Title title={t("home.title")} />
 
-      <IconButton
-        iconName='add'
-        labelKey={t("home.button")}
-        onClick={() => setIsOpened(true)}
-      />
-
-      <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
-        <Filter title='Categories' items={categories} handleAction={categoriesAction} />
-        <Filter title='Tri' items={sortItems} handleAction={sortAction}/>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'right', marginRight: '40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+          <IconButton
+            iconName='add'
+            labelKey={t("home.button")}
+            onClick={() => setIsOpened(true)}
+          />
+          <Filter title='Categories' items={categories} handleAction={categoriesAction} />
+          <Filter title='Tri' items={sortItems} handleAction={sortAction}/>
+        </div>
       </div>
 
       <div className="filters-container">
         {categories.map((item) => 
           item.isSelected && 
-            <div key={item.id} className="filters-container__items">
-              <span>{item.name}</span>
+            <div style={{ backgroundColor: 'red' }} key={item.id} className="filters-container__items">
+              <span style={{ backgroundColor: 'red' }}>{item.category_name}</span>
               <Button
                 key={item.id}
                 className='filter-container__items__button'
                 onPress={() => categoriesAction(item.id)}
+                style={{ backgroundColor: 'red' }}
               >
                 <span className="material-symbols-outlined filter-container__items__span">close</span>
               </Button>
@@ -124,17 +125,20 @@ export const Stories: React.FC = () => {
         )}
       </div>
 
-      {isLoading ? <p>Loading...</p>
+      {isLoading 
+      ? <p>Loading...</p> 
       :
-      <GridList aria-label="Stories list" style={{ maxWidth: '100vh', display: 'grid', gap: '20px' }}>
+      <GridList items={stories} aria-label="Stories list" style={{ maxWidth: '100vh', display: 'grid', gap: '20px' }}>
       {stories.length > 0 ? (
         stories.map((story, index) => (
           <GridListItem key={index}>
             <Card 
+              id={story.id}
               title={story.title} 
               date={story.date} 
               author={story.author} 
-              description={story.description} 
+              description={story.description}
+              FromStories
             />
           </GridListItem>
         ))
