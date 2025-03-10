@@ -1,4 +1,5 @@
 import React from "react"
+import './text-area.css'
 
 type TextArea = {
   textKey: string
@@ -10,12 +11,10 @@ type TextArea = {
 export const TextArea: React.FC<TextArea> = ({ textKey, name, value, onChange }) => {
 
   return(
-    <div style={{ padding: '5px 0'}}>
-      <div>
-        <label>{textKey}</label>
-      </div>
+    <div className='text-area-container'>
+      <label>{textKey}</label>
       <textarea
-        style={{ width: '100%', background: '#E8F0FE', border: 'none', padding: '5px' }}
+        className='text-area'
         rows={10}
         name={name}
         value={value}

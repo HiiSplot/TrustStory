@@ -5,6 +5,7 @@ import { router } from './router/AppRoutes'
 import React from 'react';
 import { Nav } from './components/nav';
 import { Footer } from './components/footer';
+import { PageLoader } from './components/page-loader';
 
 export const App: React.FC = () => {
   
@@ -17,9 +18,11 @@ export const App: React.FC = () => {
 
   return(
     <div className='app-container'>
-      <Nav />
-      <RouterProvider router={router} />
-      <Footer />
+      <React.Suspense fallback={<PageLoader />}>
+        <Nav />
+        <RouterProvider router={router} />
+        <Footer />
+      </React.Suspense>
     </div>
   )
 }

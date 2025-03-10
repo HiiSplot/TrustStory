@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+.nav-container__logo {
+  margin-left: 10px;
+}
+
 .nav-container__list {
   display: flex;
   justify-content: center;

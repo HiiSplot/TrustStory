@@ -1,0 +1,9 @@
+.footer {
+  height: 10vh;
+  display: flex;
+  align-items: end;
+}
+
+.text {
+  margin: 20px;
+}

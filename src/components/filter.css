@@ -1,6 +1,6 @@
 .menu-items {
   cursor: pointer;
-  background-color: white;
+  background-color: #354163;
   width: 100%;
   padding: .286rem .700rem
 }
@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: #f9f9f9;
+  background-color: #354163;
   padding: 10px 15px;
   border-radius: 99px;
   margin-bottom: 20px;

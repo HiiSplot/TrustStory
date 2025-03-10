@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: "Figtree", sans-serif;
 }
 
 h1 {
@@ -36,7 +37,7 @@ h1 {
   color: #E8F0FE;
   font-family: "Figtree", sans-serif;
   font-weight: 900;
-  text-transform: uppercase;
+  font-size: 3em;
 }
 
 button {

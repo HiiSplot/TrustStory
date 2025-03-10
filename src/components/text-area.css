@@ -1,0 +1,11 @@
+.text-area-container {
+  padding: 5px 0;
+  margin-top: 10px;
+}
+
+.text-area {
+  width: 100%;
+  background: #E8F0FE;
+  border: none;
+  padding: 5px
+}

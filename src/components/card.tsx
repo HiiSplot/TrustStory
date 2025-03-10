@@ -66,14 +66,14 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, Fro
       </div>
       {isTruncated && (
         isLinkClicked ? (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#747bff' }}>
+          <div className='card-container__description-min__less-more'>
             <a onClick={() => setIsLinkClicked(false)} className='card-container__link'>
               {t("home.card.less")} 
             </a>
             <span className="material-symbols-outlined">keyboard_arrow_up</span>
           </div>
       ) : (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#747bff' }}>
+        <div className='card-container__description-min__less-more'>
           <a onClick={() => setIsLinkClicked(true)} className='card-container__link '>
             {t("home.card.more")} 
           </a>

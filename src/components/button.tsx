@@ -6,13 +6,14 @@ type Button = {
   labelKey: string
   onClick?: () => void
   type?: "submit" | "reset" | "button" | undefined
+  className?: string
 }
 
-export const Button: React.FC<Button> = ({ labelKey, onClick, type }) => {
+export const Button: React.FC<Button> = ({ labelKey, onClick, type, className }) => {
   const { t } = useTranslation()
 
   return(
-    <button onClick={onClick} className="button" type={type}>
+    <button onClick={onClick} className={className ?? 'button'} type={type}>
       {t(labelKey)}
     </button>
   )

@@ -1,9 +1,9 @@
 .card-container {
-  width: 80vh;
+  min-width: 60vh;
   padding: 30px;
   background-color: #a3b4ff2a;
-  border-radius: 10px;
   position: relative;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .large {
@@ -20,8 +20,12 @@
   top: 0;
   padding: 20px;
   cursor: pointer;
-  color: #747bff;
+  color: #F8B179;
   background-color: transparent;
+}
+
+.card-container__icons:hover {
+  color: #d8782e;
 }
 
 .card-container__title {
@@ -51,6 +55,13 @@ p {
 
 .card-container__description-max {
   text-align: justify;
+}
+
+.card-container__description-min__less-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #F8B179;
 }
 
 .card-container__link {

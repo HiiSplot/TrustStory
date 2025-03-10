@@ -1,0 +1,48 @@
+.profil-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-profil {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 15px;
+}
+
+.complete-profil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.complete-profil__span {
+  font-size: 15px;
+}
+
+.profil-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.profil-container__image-container {
+  width: 20%;
+  height: 20%;
+  display: flex;
+  padding-top: 30px;
+}
+
+.profil-container__image-containe__img {
+  width: 100%;
+  border: 10px solid #E8F0FE;
+}
+
+.profil-container__form-container {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+}

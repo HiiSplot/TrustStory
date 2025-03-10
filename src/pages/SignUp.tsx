@@ -48,7 +48,7 @@ export const SignUp: React.FC = () => {
   return(
     <div className="form">
       <h1>{t("signUp.title")}</h1>
-      <Form onSubmit={onSubmitForm} style={{ width: '40%' }}>
+      <Form onSubmit={onSubmitForm} style={{ width: '40%'}}>
         <Input
           textKey={t("signUp.form.user")}
           type="text"

@@ -15,10 +15,8 @@ type Input = {
 export const Input: React.FC<Input> = ({ textKey, type, name, value, min, max, onChange, isDisabled }) => {
 
   return(
-    <div style={{ padding: '3px 0', marginBottom: '7px' }}>
-      <div >
-        <label style={{ width: '100%' }}>{textKey}</label>
-      </div>
+    <div className="input-container">
+      <label className="label">{textKey}</label>
       <input
         className="input"
         type={type}

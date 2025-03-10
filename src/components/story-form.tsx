@@ -5,15 +5,68 @@ import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
 import './story-form.css'
-import { Story } from "../pages/Stories";
+import { Categories } from "../pages/Stories";
 import { onCreateStory } from "../api/api";
+import { MySelect } from "./select";
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
-  stories: Story[]
 }
 
-export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
+const fakeCategories: Categories[] = [
+  {
+    id: 1,
+    category_name: 'Action',
+    isSelected: false
+  },
+  {
+    id: 2,
+    category_name: 'Adventure',
+    isSelected: false
+  },
+  {
+    id: 3,
+    category_name: 'Comedy',
+    isSelected: false
+  },
+  {
+    id: 4,
+    category_name: 'Crime',
+    isSelected: false
+  },
+  {
+    id: 5,
+    category_name: 'Drama',
+    isSelected: false
+  },
+  {
+    id: 6,
+    category_name: 'Fantasy',
+    isSelected: false
+  },
+  {
+    id: 7,
+    category_name: 'Historical',
+    isSelected: false
+  },
+  {
+    id: 8,
+    category_name: 'Horror',
+    isSelected: false
+  },
+  {
+    id: 9,
+    category_name: 'Mystery',
+    isSelected: false
+  },
+  {
+    id: 10,
+    category_name: 'Romance',
+    isSelected: false
+  }
+]
+
+export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
   const { t } = useTranslation()
 
   const dateNow = new Date().toISOString().split('T')[0]
@@ -33,7 +86,7 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
 
   return(
     <div className='form-container'>
-      <h1 className='form-container__form__title'>{t("home.form.titleForm")}</h1>
+      <h1 className='form-container__title'>{t("home.form.titleForm")}</h1>
       <Form action='/home' onSubmit={handleSubmit} className='form-container__form'>
         <Input
           textKey={t("home.form.title")}
@@ -57,18 +110,9 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
-         <select name="categories" id="" style={{ width: '101.5%', padding: '10px', background: '#E8F0FE', border: 'none' }}>
-          <option value="action">Action</option>
-          <option value="adventure">Adventure</option>
-          <option value="comedy">Comedy</option>
-          <option value="crime">Crime</option>
-          <option value="drama">Drama</option>
-          <option value="fantasy">Fantasy</option>
-          <option value="historical">Historical</option>
-          <option value="horror">Horror</option>
-          <option value="mystery">Mystery</option>
-          <option value="romance">Romance</option>
-         </select>
+        
+        <MySelect items={fakeCategories} name="categories" onSelect={(item) => console.log(item)} />
+
         <TextArea
           textKey={t("home.form.description")}
           name="description"
@@ -77,13 +121,13 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, stories }) => {
         />
         <div className='form-container__buttons-container'>
           <Button
-            labelKey={t("story.button.validation")}
-            type="submit"
-          />
-          <Button
             labelKey={t("story.button.cancel")}
             type="button"
             onClick={() => {setIsOpened(false)}}
+          />
+          <Button
+            labelKey={t("story.button.validation")}
+            type="submit"
           />
         </div>
       </Form>
