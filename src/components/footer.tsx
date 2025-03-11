@@ -4,7 +4,7 @@ import './footer.css'
 export const Footer: React.FC = () => {
   return(
     <footer className='footer'>
-      <p className='text'>© TrustStory 2021</p>
+      <p className='text'>© TrustStory 2025</p>
     </footer>
   )
 }

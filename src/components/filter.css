@@ -2,7 +2,9 @@
   cursor: pointer;
   background-color: #354163;
   width: 100%;
-  padding: .286rem .700rem
+  padding: .286rem .700rem;
+  display: flex;
+  justify-items: start;
 }
 
 .filters-container {
@@ -19,7 +21,6 @@
   gap: 10px;
   background-color: #354163;
   padding: 10px 15px;
-  border-radius: 99px;
   margin-bottom: 20px;
 }
 
@@ -27,7 +28,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 99px;
   padding: 10px 10px;
   margin: 0;
   background-color: #cecece;

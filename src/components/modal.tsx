@@ -1,21 +1,21 @@
-import {DialogTrigger, Modal, ModalOverlay} from 'react-aria-components';
 import './modal.css'
 
-type MyModal = {
+type MyModalProps = {
   isOpened: boolean;
+  setIsOpened: (value: boolean) => void;
   children: React.ReactNode;
 }
 
-export const MyModal: React.FC<MyModal> = ({ isOpened, children }) => {
-  return(
-    <div className='modal-container'>
-      <DialogTrigger isOpen={isOpened}>
-        <ModalOverlay className='modal-overlay'>
-          <Modal className='modal'>
+export const MyModal: React.FC<MyModalProps> = ({ isOpened, setIsOpened, children }) => {
+  return (
+    <div className="modal-container">
+      {isOpened && (
+        <div className="modal-overlay" onClick={() => setIsOpened(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             {children}
-          </Modal>
-        </ModalOverlay>
-      </DialogTrigger>
+          </div>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};

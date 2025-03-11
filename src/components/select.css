@@ -7,3 +7,7 @@
   background: #E8F0FE;
   border: none;
 }
+
+.select:focus {
+  outline: none;
+}

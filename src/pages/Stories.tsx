@@ -2,14 +2,16 @@ import { useTranslation } from "react-i18next"
 import React, { useEffect } from "react"
 import { MyModal } from "../components/modal"
 import { StoryForm } from "../components/story-form"
-import { Button, GridList, GridListItem } from "react-aria-components"
-import { Card } from "../components/card"
+import { Button } from "react-aria-components"
 import { IconButton } from "../components/icon-button"
 import { Filter } from "../components/filter"
 import { getCategories, getStories } from "../api/api"
 import { PageLoader } from "../components/page-loader"
 import '../components/filter.css'
 import './style/stories.css'
+import { StoryView } from "../components/story-view"
+import { Grid } from "../components/grid"
+import { MyTable } from "../components/table"
 
 export type Story = {
   id: number,
@@ -28,65 +30,67 @@ export type Categories = {
 const fakeStories: Story[] = [
   {
     id: 1,
-    title: 'Story 1',
-    date: '01/01/2021',
+    title: 'Un titre un peu plus long',
+    date: '07 nov. 2022',
     author: 'Author 1',
-    description: 'Description 1'
+    description: 'Une description un peu longue pour voir ce que ça donne un peu longue pour voir ce que ça donne mais qu\'est-ce que ça donne vraiment quand c\'est truncated?'
   },
   {
     id: 2,
-    title: 'Story 2',
-    date: '01/01/2021',
+    title: 'J\'ai découvert que ma mère avait une double vie',
+    date: '01 fev. 2023',
     author: 'Author 2',
-    description: 'Description 2'
+    description: 'J\'ai découvert que ma mère vivait une double vie. Pendant des années, j\'avais des doutes, mais je n\'avais aucune idée de la vérité. Un jour, j\'ai trouvé des preuves qu\'elle avait un autre mari et d\'autres enfants que je ne connaissais même pas. C\'était un choc total. Je me suis senti trahi, et j\'ai eu du mal à comprendre comment elle avait pu me cacher ça pendant tout ce temps. Cela a bouleversé toute ma perception de ma famille et de ma mère, mais avec le temps, j\'ai dû accepter la réalité et reconstruire ma relation avec elle.'
   },
   {
     id: 3,
-    title: 'Story 3',
-    date: '01/01/2021',
+    title: 'Recherche mon chat perdu',
+    date: '10 avril2024',
     author: 'Author 3',
-    description: 'Description 3'
+    description: 'Je pensais détester ce collègue pendant des années. Il me semblait arrogant, distant et tout ce que je n\'aimais pas. Mais un jour, nous avons dû travailler ensemble sur un projet, et peu à peu, j\'ai vu une autre facette de sa personnalité.'
   },
   {
     id: 4,
-    title: 'Story 4',
-    date: '01/01/2021',
+    title: 'Je me suis rendu compte que je vivais une vie que mes parents voulaient pour moi et non la mienne',
+    date: '18 sept. 2024',
     author: 'Author 4',
-    description: 'Description 4'
+    description: 'Pendant des années, j\'ai vécu en suivant les attentes de mes parents. Je suis devenu avocat, comme ils l\'avaient toujours rêvé pour moi.'
   },
   {
     id: 5,
-    title: 'Story 5',
-    date: '01/01/2021',
+    title: 'J\'ai sauvé la vie d\'un étranger par accident.',
+    date: '1 juil. 2024',
     author: 'Author 5',
-    description: 'Description 5'
+    description: 'Je ne pensais pas que ma journée allait se dérouler de cette façon. En me rendant à mon travail, j\'ai croisé quelqu\'un qui faisait une réaction allergique grave.'
   },
   {
     id: 6,
-    title: 'Story 6',
-    date: '01/01/2021',
+    title: 'Je me suis réconcilié avec mon père après 15 ans de silence.',
+    date: '28 janv. 2025',
     author: 'Author 6',
-    description: 'Description 6'
+    description: 'Il y a 15 ans, j\'ai arrêté de parler à mon père après une dispute qui a tout déchiré. Nous n\'avons pas parlé pendant des années, et au fil du temps, j\'ai appris à vivre sans lui. '
   },
   {
     id: 7,
-    title: 'Story 7',
-    date: '01/01/2021',
+    title: 'J\'ai passé 10 ans à essayer de cacher mon orientation sexuelle à mes parents.',
+    date: '24 mars 2024',
     author: 'Author 7',
-    description: 'Description 7'
+    description: 'J\'ai passé dix longues années à cacher qui je suis vraiment. J\'avais peur de la réaction de mes parents, alors j\'ai vécu dans un mensonge.'
   },
   {
     id: 8,
-    title: 'Story 8',
-    date: '01/01/2021',
+    title: 'Je suis tombé sur un journal intime de mon ex, et j\'ai découvert des choses que je n\'aurais jamais imaginées',
+    date: '15 sept. 2024',
     author: 'Author 8',
-    description: 'Description 8'
+    description: 'Après ma rupture avec mon ex, j\'ai trouvé un vieux journal intime qu\'il avait laissé chez moi. Curieux, je l\'ai ouvert, et ce que j\'ai découvert m\'a complètement choqué. Il avait écrit des choses sur notre relation que je n\'aurais jamais imaginées. '
   }
 ]
 
 export const Stories: React.FC = () => {
   const { t } = useTranslation()
-  const [isOpened, setIsOpened] = React.useState(false)
+  const [isFormOpened, setIsFormOpened] = React.useState(false)
+  const [isStoryOpened, setIsStoryOpened] = React.useState(false)
+  const [storyId, setStoryId] = React.useState<number>(0)
   const [isCardsDisplay, setIsCardsDisplay] = React.useState(true)
   const [stories, setStories] = React.useState<Story[]>([])
   const [categories, setCategories] = React.useState<Categories[]>([])
@@ -161,15 +165,16 @@ export const Stories: React.FC = () => {
     <>
       <div className="stories-buttons-container">
         <div className="stories-buttons-container__buttons">
-          {isCardsDisplay ? (
-            <IconButton iconName="menu" labelKey='Liste' onClick={toggleDisplay} />
-          ): (
-            <IconButton iconName="check_box_outline_blank" labelKey='Grid' onClick={toggleDisplay} />
-          )}
+          <IconButton
+            className='stories-buttons-container__buttons__icon-button'
+            iconName={isCardsDisplay ? "menu" : "check_box_outline_blank"}
+            labelKey={isCardsDisplay ? 'Liste' : 'Grid'}
+            onClick={toggleDisplay}
+          />
           <IconButton
             iconName='add'
             labelKey={t("home.button")}
-            onClick={() => setIsOpened(true)}
+            onClick={() => setIsFormOpened(true)}
           />
           <Filter title='Categories' items={categories} handleAction={categoriesAction} />
           <Filter title='Tri' items={sortItems} handleAction={sortAction}/>
@@ -193,32 +198,21 @@ export const Stories: React.FC = () => {
       </div>
 
       <div className="stories-container">
-        {isLoading 
-        ? <PageLoader />
-        :
-        <GridList items={stories} aria-label="Stories list" className='stories-container__grid'>
-        {stories.length > 0 ? (
-          stories.map((story, index) => (
-            <GridListItem key={index}>
-              <Card 
-                id={story.id}
-                title={story.title} 
-                date={story.date} 
-                author={story.author} 
-                description={story.description}
-                FromStories
-              />
-            </GridListItem>
-          ))
+        {isLoading ? (
+          <PageLoader />
+        ) : isCardsDisplay ? (
+          <Grid items={stories} setIsStoryOpened={setIsStoryOpened} setStoryId={setStoryId} />
         ) : (
-          <p>No stories available</p>
+          <MyTable items={stories} setIsStoryOpened={setIsStoryOpened} setStoryId={setStoryId} />
         )}
-        </GridList>
-        }
       </div>
-      
-      <MyModal isOpened={isOpened}>
-        <StoryForm setIsOpened={setIsOpened} />
+
+      <MyModal isOpened={isFormOpened} setIsOpened={setIsFormOpened}>
+        <StoryForm setIsOpened={setIsFormOpened} />
+      </MyModal>
+
+      <MyModal isOpened={isStoryOpened} setIsOpened={setIsStoryOpened}>
+        <StoryView storyId={storyId} stories={stories} setIsOpened={setIsStoryOpened} />
       </MyModal>
     </>
   )

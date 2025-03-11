@@ -53,8 +53,10 @@
   },
   "story" : {
     "button" : {
-      "validation": "Ajouter",
-      "cancel" : "Annuler"
+      "back" : "Retour",
+      "cancel" : "Annuler",
+      "follow": "Suivre l'auteur",
+      "validation": "Ajouter"
     }
   },
   "profil": {

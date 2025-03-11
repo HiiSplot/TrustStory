@@ -2,5 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 3px;
+  margin: 10px;
+  border-radius: 99px;
+}
+
+.icon-size {
+  font-size: 20px;
 }

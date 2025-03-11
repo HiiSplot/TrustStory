@@ -1,9 +1,7 @@
 .footer {
-  height: 10vh;
   display: flex;
-  align-items: end;
-}
-
-.text {
-  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  width: 100%;
 }

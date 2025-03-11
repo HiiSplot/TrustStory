@@ -7,6 +7,18 @@
   flex-direction: column;
 }
 
+.form-container__close-button {
+  color: #F8B179;
+  cursor: pointer;
+  position: absolute;
+  top: 2%;
+  right: 1.5%;
+}
+
+.form-container__close-button:hover {
+  color: #b86a2e;
+}
+
 .form-container__form {
   width: 100%;
 }

@@ -11,29 +11,11 @@
   margin: 20px 0;
 }
 
+.stories-buttons-container__buttons__icon-button {
+  width: 4ch;
+}
+
 .stories-container {
-  min-height: 100vh;
+  min-height: 70vh;
   width: 98vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stories-container__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 1860px) {
-  .stories-container__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 1200px) {
-  .stories-container__grid {
-    grid-template-columns: none;
-  }
-  
 }
