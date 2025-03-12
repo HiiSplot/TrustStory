@@ -58,11 +58,11 @@ export const Login: React.FC = () => {
         <Input textKey={t("login.form.login")} type="text" name="user" value={loginData.user} onChange={handleChange}/>
         <Input textKey={t("login.form.password")} type="password" name="password"  value={loginData.password} onChange={handleChange}/>
         <div className="form__button-container">
-          <Button labelKey={t("login.form.button.connection")} type="submit"/>
+          <Button labelKey={t("login.form.button.connection")} className="form__button-container__button" type="submit"/>
         </div>
       </Form>
       <div>
-        <Link to="/sign-up">{t("login.form.button.inscription")}</Link>
+        <Link to="/sign-up" >{t("login.form.button.inscription")}</Link>
       </div>
     </div>
   )

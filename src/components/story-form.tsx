@@ -78,7 +78,6 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log({ title, date, author, description });
     
     onCreateStory({ title, date, author, description })
     setIsOpened(false)
@@ -127,6 +126,7 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
             labelKey={t("story.button.cancel")}
             type="button"
             onClick={() => {setIsOpened(false)}}
+            className="form-container__buttons-container__cancel-button"
           />
           <Button
             labelKey={t("story.button.validation")}

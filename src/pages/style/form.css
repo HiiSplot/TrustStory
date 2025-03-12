@@ -13,3 +13,7 @@
 .form__button-container {
   margin: 20px 0;
 }
+
+.form__button-container__button {
+  border-radius: 0;
+}

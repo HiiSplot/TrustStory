@@ -82,6 +82,7 @@ export const SignUp: React.FC = () => {
           <Button
             labelKey={t("signUp.button.signUp")}
             type="submit"
+            className="form__button-container__button"
           />
         </div>
       </Form>

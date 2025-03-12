@@ -21,6 +21,7 @@
 
 .form-container__form {
   width: 100%;
+  text-align: left;
 }
 
 .form-container__title {
@@ -34,4 +35,15 @@
   align-items: center;
   gap: 20px;
   padding: 15px 0;
+}
+
+.form-container__buttons-container__cancel-button {
+  background-color: transparent;
+  color: #F8B179;
+  border: #F8B179 1px solid;
+}
+
+.form-container__buttons-container__cancel-button:hover {
+  border: #b86a2e 1px solid;
+  transition: none;
 }

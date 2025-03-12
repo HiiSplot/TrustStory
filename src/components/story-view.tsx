@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next"
 import { Story } from "../pages/Stories";
 import './story-view.css'
 import { IconButton } from "./icon-button";
-import { TextArea } from "./text-area";
-import { Button } from "./button";
+import { postInFavorites } from "../api/api";
+import { Comments } from "./comments";
 
 type StoryView = {
   storyId: number
@@ -14,18 +14,26 @@ type StoryView = {
 
 export const StoryView: React.FC<StoryView> = ({ storyId, stories, setIsOpened }) => {
   const { t } = useTranslation()
+  const [isFollowed, setIsFollowed] = React.useState<boolean>(false)
+  const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
   const [iconButtonName, setIconButtonName] = React.useState<string>('add')
   const [iconPersonName, setIconPersonName] = React.useState<string>('person_add')
-  const [value, setValue] = React.useState<string>('')
 
-  const toggleFollowButton = (iconName: string, ) => {
+  const toggleFollowButton = (iconName: string) => {
     if (iconName === 'add') {
+      setIsFollowed(true)
       setIconButtonName('check')
       setIconPersonName('person_check')
     } else {
+      setIsFollowed(false)
       setIconButtonName('add')
       setIconPersonName('person_add')
     }
+  }
+
+  const favoriteToggle = (storyId: number) => {
+    setIsFavorite(!isFavorite)
+    postInFavorites(storyId)
   }
 
 
@@ -47,45 +55,21 @@ export const StoryView: React.FC<StoryView> = ({ storyId, stories, setIsOpened }
             <div className='story-container__buttons-container'>
               <IconButton
                 iconName={iconButtonName}
-                labelKey={t("story.button.follow")}
+                labelKey={isFollowed ? t("story.button.unfollow") : t("story.button.follow")}
                 type="button"
                 onClick={() => {toggleFollowButton(iconButtonName)}}
               />
+              <div className='card-container__icons-container' onClick={() => favoriteToggle(storyId)} >
+                <button className="story-view__icon">
+                  <i className={isFavorite ? "fa-solid fa-heart heart" : "fa-regular fa-heart heart"}></i>
+                </button>
+              </div>
             </div>
 
             <p>{story.description}</p>
 
-            <div className='story-container__comments'>
-              <h2 style={{ marginBottom: '0'}}>Répondre</h2>
+            <Comments storyId={storyId} />
 
-              <TextArea
-                textKey=''
-                cols={85}
-                name='commentaire'
-                value={value}
-                onChange={onChange => setValue(onChange.target.value)}
-              />
-              <Button
-                className='story-container__comments__send-button'
-                labelKey="Poster"
-              />
-
-              <h2>Commentaires</h2>
-              <div className="story-container__comments__commment-container">
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
-                  <p>Pseudo</p>
-                  <p>Date</p>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam animi earum illo accusamus labore harum amet nihil perspiciatis? Laborum veniam totam nisi laudantium beatae, ut nulla quod ex maxime, sequi rem blanditiis vero enim doloremque obcaecati dolor repudiandae cumque ab odio. Ea est nostrum id unde? Quasi, sequi delectus!</p>
-              </div>
-              <div  className="story-container__comments__commment-container">
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
-                  <p>Pseudo</p>
-                  <p>Date</p>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam animi earum illo accusamus labore harum amet nihil perspiciatis? Laborum veniam totam nisi laudantium beatae, ut nulla quod ex maxime, sequi rem blanditiis vero enim doloremque obcaecati dolor repudiandae cumque ab odio. Ea est nostrum id unde? Quasi, sequi delectus!</p>
-              </div>
-            </div>
           </>
         ))}
       </div>

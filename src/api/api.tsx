@@ -172,3 +172,20 @@ export const getFavorites = async () => {
     throw error
   }
 }
+
+export const getUser = async (userId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/user/${userId}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}

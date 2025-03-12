@@ -57,6 +57,7 @@
       "back": "Back",
       "cancel" : "Cancel",
       "follow": "Follow the author",
+      "unfollow": "Unfollow the author",
       "validation": "Add"
     }
   },

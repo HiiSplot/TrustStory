@@ -1,0 +1,22 @@
+.comments {
+  width: 100%;
+}
+
+.comments__send-button {
+  border-radius: 0;
+}
+
+.comments__commment-container {
+  padding: 10px;
+  border: #aaa 1px solid;
+  border-radius: 5px;
+  text-align: left;
+  margin: 15px 0;
+  width: 98%;
+}
+
+.comments__commment-container__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
