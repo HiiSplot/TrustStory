@@ -8,11 +8,12 @@
     "profil": "Profil",
     "logout": "Logout"
   },
+
   "login": { 
     "title": "Login",
     "welcome": "TrustStory",
     "form": {
-      "login": "User",
+      "login": "E-mail",
       "password": "Password",
       "button":{
         "connection": "Sign in",
@@ -20,10 +21,12 @@
       }
     }
   },
+
   "signUp": {
     "title": "Sign up",
     "form": {
-      "user": "Username",
+      "firstName": "Firstname",
+      "lastName": "Lastname",
       "password": "Password",
       "mail": "Email",
       "birthDate": "Birthdate"
@@ -33,6 +36,7 @@
       "signIn": "Already user ?"
     }
   },
+
   "home": {
     "title": "TrustStory",
     "form": {
@@ -52,21 +56,50 @@
     },
     "button": "Add a new story"
   },
+
   "story" : {
     "button" : {
       "back": "Back",
       "cancel" : "Cancel",
-      "follow": "Follow the author",
-      "unfollow": "Unfollow the author",
+      "follow": "Follow",
+      "unfollow": "Unfollow",
+      "followAuthor": "Follow the author",
+      "unfollowAuthor": "Unfollow the author",
+      "message": "Message",
       "validation": "Add"
-    }
+    },
+    "form": {
+      "button": {
+        "addFavorite": "Add to favorite",
+        "removeFavorite": "Remove favorite",
+        "post": "Post"
+      },
+      "comment": {
+        "title": "Comments",
+        "placeholder": "Write your comment here",
+        "response": "Your response",
+        "noComment": "No comment to show"
+      },
+      "categories": "Categories"
+    },
+    "postedBy": "Posted by",
+    "author": "You",
+    "noStory": "No story to show"
   },
+
   "profil": {
-    "title": "Profil"
+    "title": "Profil",
+    "postedStoryLink": "Posted stories",
+    "favoriteStoriesLink": "Favorite stories",
+    "postStoryButton": "Post your first story",
+    "favoriteStoryButton": "Add your first story",
+    "noStory": "No story to show"
   },
+
   "categories": {
     "title": "Categories"
   },
+
   "favorite": {
     "title": "Favorite stories"
   }

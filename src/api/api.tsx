@@ -1,5 +1,6 @@
 interface SignUpData {
-  user: string;
+  firstName: string;
+  lastName: string;
   password: string;
   email: string;
   date: string;
@@ -159,6 +160,23 @@ export const getFavorites = async () => {
   const userId = localStorage.getItem('userId');
   try {
     const response = await fetch(`http://localhost:3000/favorites/${userId}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const getStoriesByUser = async (userId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/stories/${userId}`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })

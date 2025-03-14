@@ -48,7 +48,7 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, set
         <div className='card-container__date-container'>
           <p className='card-container__date-container__date'>{date}</p>
         </div>
-        <span className="material-symbols-outlined" style={{ fontSize: '80px', color: '#1F2A44' }}>image</span>
+        <span className="material-symbols-outlined image-icon">image</span>
         {/* <img src='https://blocks.astratic.com/img/general-img-square.png' alt='placeholder' className='card-container__image-container__image'/> */}
       </div>
 
@@ -56,9 +56,9 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, set
 
         <h1 className='card-container__title'>{title}</h1>
         <div className='card-container__subtitle'>
-          <p>Posté par : </p>
+          <p>{t("story.postedBy")}</p>
           {isUserCanEdit ? (
-            <p className='card-container__author'>Vous</p>
+            <p className='card-container__author'>{t("story.author")}</p>
           ) : (
             <a className='card-container__author' href="">{author}</a>
           )}

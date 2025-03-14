@@ -1,48 +1,120 @@
-.profil-page {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.profil-container__page {
 }
 
-.link-profil {
+/* .link-profil {
   position: absolute;
   right: 0;
   top: 0;
   margin: 15px;
-}
+} */
 
-.complete-profil {
+/* .complete-profil {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-}
+} */
 
-.complete-profil__span {
+/* .complete-profil__span {
   font-size: 15px;
+} */
+
+.profil-container__page {
+  width: 95vw;
 }
 
-.profil-container {
+.profil-container__header {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 50px;
-}
-
-.profil-container__image-container {
-  width: 20%;
-  height: 20%;
-  display: flex;
+  gap: 20px;
+  background-color: #a3b4ff2a;
   padding-top: 30px;
+  padding-bottom: 10px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
 }
 
-.profil-container__image-containe__img {
-  width: 100%;
-  border: 10px solid #E8F0FE;
-}
-
-.profil-container__form-container {
-  width: 55%;
+.profil-container__header__image-container {
+  width: 9%;
+  height: 10%;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.profil-container__header__image-containe__img {
+  width: 100%;
+  border-radius: 50%;
+  opacity: 100%;
+}
+
+.profil-container__header__city {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
+
+.profil-container__header__user-infos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profil-container__header__user-infos__buttons-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 20px;
+}
+
+.profil-container__header__user-infos__buttons-container__icon {
+  width: 6ch;
+}
+
+.follow {
+  background-color: #1F2A44;
+  color: #F8B179;
+}
+
+.follow:hover {
+  color: #E8F0FE;
+}
+
+.profil-container__header__user-infos__stories-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-inline: 10px;
+}
+
+.profil-container__header__user-infos__stories-container__text {
+  display: flex;
+  font-weight: 700;
+}
+
+.profil-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.profil-content__links-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  background-color: #a3b4ff2a;
+}
+
+.profil-content__links {
+  padding: 10px 35px;
+  font-weight: 700;
+  color:#dce7ff
+}
+
+.default {
+  background-color: #1f2a44a2;
 }

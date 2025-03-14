@@ -1,41 +1,31 @@
+import React from "react"
 import { t } from "i18next"
-import React, { useEffect } from "react"
-import { Input } from "../components/input"
 import { Title } from "../components/title"
 import { getInformations } from "../api/api"
-import { Button } from '../../../vite-project/src/components/button';
+import { IconButton } from "../components/icon-button"
+import { FavoriteStories } from "./FavoriteStories"
+import { PostedStories } from "./PostedStories"
 import './style/form.css'
 import './style/profil.css'
 
-const initialProfilState = {
-  lastName: '',
-  address: '',
-  postalCode: '',
-  country: '',
-};
-
 export const Profil: React.FC = () => {
+  const previousTargetRef = React.useRef<HTMLElement | null>(null)
+  const defaultLinkRef = React.useRef<HTMLAnchorElement | null>(null)
+  const userId = localStorage.getItem('userId')
 
-  const [isDisabled, setIsDisabled] = React.useState(true)
+  const [activeTab, setActiveTab] = React.useState<string>('posted-stories')
+  const [iconButtonName, setIconButtonName] = React.useState<string>('add')
+  const [isFollowed, setIsFollowed] = React.useState<boolean>(false)
   const [profilInformations, setProfilInformations] = React.useState({
+    id: '',
     name: '',
     email: '',
     birthday: '',
-  })
-  const [completeProfil, setCompleteProfil] = React.useState({
-    lastName: '',
-    address: '',
-    postalCode: '',
-    country: '',
+    city: '',
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setCompleteProfil((prevData) => ({
-      ...prevData,
-      [name]: value
-    }))
-  }
+  const isCurrentUser = userId === profilInformations.id
+  const name = 'Laura Bensimon'
   
   const fetchProfil = async () => {
     try {
@@ -45,62 +35,131 @@ export const Profil: React.FC = () => {
       console.error('Erreur lors de la récupération des informations du profil :', error)
     }
   };
-  
-  const toggleDisabled = (e: Event) => {
-    e.preventDefault()
-    if (isDisabled) {
-      setIsDisabled(false)
+
+  const toggleFollowButton = (iconName: string) => {
+    if (iconName === 'add') {
+      setIsFollowed(true)
+      setIconButtonName('check')
     } else {
-      setCompleteProfil(initialProfilState)
-      setIsDisabled(true)
+      setIsFollowed(false)
+      setIconButtonName('add')
     }
   }
-  
-  useEffect(() => {
+
+  const handleChangeRubric = (e: React.MouseEvent, tab: string) => {
+    e.preventDefault()
+    setActiveTab(tab)
+    const target = e.target as HTMLElement
+
+    if (previousTargetRef.current) {
+      previousTargetRef.current.classList.remove("default")
+    }
+
+    target.classList.add("default")
+    previousTargetRef.current = target
+  }
+
+  React.useEffect(() => {
     fetchProfil()
+    if (defaultLinkRef.current) {
+      defaultLinkRef.current.classList.add("default");
+      previousTargetRef.current = defaultLinkRef.current;
+    }
   }, [])
   
   return (
     <>
-    <Title title={t("profil.title")} />
-    <div className="profil-page">
-      <div className="form">
-        <a href="" className="link-profil">
-          <div className="complete-profil">
-            {isDisabled ? (
+    <div className="profil-container__page">
+
+      <div className="profil-container__header">
+        <div className="profil-container__header__image-container">
+          <img
+            className="profil-container__header__image-containe__img"
+            src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small_2x/profile-icon-design-free-vector.jpg"
+            alt="Profil image"
+          />
+
+          <div className="profil-container__header__city">
+            <span className="material-symbols-outlined">
+              home_pin
+            </span>
+            <p>{profilInformations.city}Nantes</p>
+          </div>
+        </div>
+
+        <div className="profil-container__header__user-infos" >
+          <div className="profil-container__header__user-infos__buttons-container">
+            <Title title={name} />
+            {isCurrentUser &&
             <>
-              <span className="material-symbols-outlined complete-profil__span">edit</span>
-              <span onClick={toggleDisabled}>Compléter le profil</span>
-            </> 
-            ) : (
-            <>
-            <span className="material-symbols-outlined complete-profil__span">block</span>
-            <span onClick={toggleDisabled}>Annuler</span>
+              <IconButton classNameText='profil-container__header__user-infos__buttons-container__icon' classNameButton={isFollowed ? 'follow' : ''} iconName={iconButtonName} type='button' labelKey={isFollowed ? t("story.button.unfollow") : t("story.button.follow")} onClick={() => {toggleFollowButton(iconButtonName)}} />
+              <IconButton iconName='mail' type='button' labelKey={t("story.button.message")} onClick={() => {}} />
             </>
-            )
             }
           </div>
-        </a>
-        <div className="profil-container">
-          <div className="profil-container__image-container">
-            <img
-              className="profil-container__image-containe__img"
-              src="https://external-preview.redd.it/looking-for-cat-holding-camera-meme-v0-hHXl1YNEuBrwzSTG72BYhBxhJi30D8stnUQccN6hMP0.jpg?auto=webp&s=d3db9cf4e90d3e6904bca67f752107177082086c"
-              alt="Profil image"
-            />
+          <div className="profil-container__header__user-infos__stories-container">
+            <span className="material-symbols-outlined">
+              edit_square
+            </span>
+            <p className="profil-container__header__user-infos__stories-container__text">
+              5 stories
+            </p>
           </div>
-          <div className="profil-container__form-container">
-            <Input textKey="Nom" type="text" name="lastName" value={completeProfil.lastName} onChange={handleChange} isDisabled={isDisabled} />
-            <Input textKey="Prénom" type="text" name="firstname" value={profilInformations.name} isDisabled={isDisabled} />
-            <Input textKey="Date d'anniversaire" type="text" name="birthday" value={profilInformations.birthday} isDisabled={isDisabled} />
-            <Input textKey="Email" type="text" name="email" value={profilInformations.email} isDisabled={isDisabled} />
-            <Input textKey="Adresse postale" type="text" name="address" value={completeProfil.address} onChange={handleChange} isDisabled={isDisabled} />
-            <Input textKey="Code postal" type="text" name="postalCode" value={completeProfil.postalCode} onChange={handleChange} isDisabled={isDisabled} />
-            <Input textKey="Pays" type="text" name="country" value={completeProfil.country} onChange={handleChange} isDisabled={isDisabled} />
-            {!isDisabled && <Button type='submit' labelKey={t("story.button.validation")} onClick={() => {setIsDisabled(true)}} />}
+          <div className="profil-container__header__user-infos__stories-container">
+            <span className="material-symbols-outlined">
+              favorite
+            </span>
+            <p className="profil-container__header__user-infos__stories-container__text">
+              12 stories
+            </p>
           </div>
         </div>
       </div>
+
+      <div className="profil-content">
+
+          {/* <a href="" className="link-profil">
+            <div className="complete-profil">
+              {isDisabled ? (
+                <>
+                  <span className="material-symbols-outlined complete-profil__span">edit</span>
+                  <span onClick={(e) => toggleDisabled(e)}>Compléter le profil</span>
+                </> 
+                ) : (
+                <>
+                <span className="material-symbols-outlined complete-profil__span">block</span>
+                <span onClick={(e) => toggleDisabled(e)}>Annuler</span>
+                </>
+                )
+              }
+            </div>
+          </a> */}
+          
+        <div className="profil-content__links-container">
+          <a
+            href=""
+            id="posted-stories"
+            className="profil-content__links"
+            onClick={(e) => handleChangeRubric(e, 'posted-stories')}
+            ref={defaultLinkRef}
+          >
+            {t("profil.postedStoryLink")}
+          </a>
+          <a
+            href=""
+            id="favorite-stories"
+            className="profil-content__links"
+            onClick={(e) => handleChangeRubric(e, 'favorite-stories')}
+          >
+            {t("profil.favoriteStoriesLink")}
+          </a>
+        </div>
+
+        <div style={{ position: 'relative'}}>
+          {activeTab === 'posted-stories' ? <PostedStories /> : <FavoriteStories />}
+        </div>
+      </div>
+
     </div>
     </>
   )

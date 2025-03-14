@@ -166,7 +166,7 @@ export const Stories: React.FC = () => {
       <div className="stories-buttons-container">
         <div className="stories-buttons-container__buttons">
           <IconButton
-            className='stories-buttons-container__buttons__icon-button'
+            classNameText='stories-buttons-container__buttons__icon-button'
             iconName={isCardsDisplay ? "menu" : "check_box_outline_blank"}
             labelKey={isCardsDisplay ? 'Liste' : 'Grid'}
             onClick={toggleDisplay}

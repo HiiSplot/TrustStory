@@ -7,10 +7,11 @@ import { Button } from "../components/button";
 import './style/form.css'
 
 interface FormData {
-  user: string;
-  email: string;
-  password: string;
-  date: string;
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  date: string
 }
 
 export const SignUp: React.FC = () => {
@@ -19,7 +20,8 @@ export const SignUp: React.FC = () => {
   const date = new Date().toLocaleDateString('en-CA');
   
   const [formData, setFormData] = useState<FormData>({
-      user: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       date: '',
@@ -50,10 +52,17 @@ export const SignUp: React.FC = () => {
       <h1>{t("signUp.title")}</h1>
       <Form onSubmit={onSubmitForm} style={{ width: '40%'}}>
         <Input
-          textKey={t("signUp.form.user")}
+          textKey={t("signUp.form.firstName")}
           type="text"
-          name="user"
-          value={formData.user}
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+        />
+        <Input
+          textKey={t("signUp.form.lastName")}
+          type="text"
+          name="lastName"
+          value={formData.lastName}
           onChange={handleChange}
         />
         <Input

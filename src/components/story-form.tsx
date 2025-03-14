@@ -86,7 +86,7 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
   return(
     <div className='form-container'>
       <div className="form-container__close-button" onClick={() => setIsOpened(false)}>
-      <span className="material-symbols-outlined" style={{ fontSize: '30px' }}>cancel</span>
+      <span className="material-symbols-outlined font-size">cancel</span>
       </div>
       <h1 className='form-container__title'>{t("home.form.titleForm")}</h1>
       <Form action='/home' onSubmit={handleSubmit} className='form-container__form'>

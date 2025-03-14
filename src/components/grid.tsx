@@ -3,6 +3,7 @@ import { GridList, GridListItem } from "react-aria-components"
 import { Card } from "./card"
 import { Story } from "../pages/Stories"
 import './grid.css'
+import { t } from "i18next"
 
 type GridListProps = {
   items: Story[]
@@ -30,7 +31,7 @@ export const Grid: React.FC<GridListProps> = ({ items, setIsStoryOpened, setStor
         </GridListItem>
       ))
     ) : (
-      <p>No stories available</p>
+      <p>{t("story.noStory")}</p>
     )}
     </GridList>
   )

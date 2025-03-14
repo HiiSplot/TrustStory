@@ -3,6 +3,7 @@ import { TextArea } from "./text-area";
 import { Button } from "./button";
 import './comments.css'
 import { getUser } from "../api/api";
+import { t } from "i18next";
 
 type Comments = {
   storyId: number
@@ -49,7 +50,7 @@ export const Comments: React.FC<CommentsProps> = ({ storyId }) => {
   
   return (
     <div className='comments'>
-      <h2 style={{ marginBottom: '0'}}>Répondre</h2>
+      <h2 className="margin-top">{t("story.form.comment.response")}</h2>
 
       <TextArea
         textKey=''
@@ -60,11 +61,11 @@ export const Comments: React.FC<CommentsProps> = ({ storyId }) => {
       />
       <Button
         className='comments__send-button'
-        labelKey="Poster"
+        labelKey={t("story.form.button.post")}
         onClick={handleAddComment}
       />
 
-      <h2>Commentaires ({comments.length})</h2>
+      <h2 className="margin-top">{t("story.form.comment.title")} ({comments.length})</h2>
 
       {comments.length > 0 ? (
         comments.map((comment, index) => (
@@ -77,7 +78,7 @@ export const Comments: React.FC<CommentsProps> = ({ storyId }) => {
           </div>
         ))
       ) : (
-        <p>Pas de commentaire à afficher</p>
+        <p>{t("story.form.comment.noComment")}</p>
       )}
     </div>
   );

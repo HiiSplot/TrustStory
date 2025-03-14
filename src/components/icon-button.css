@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 6px;
   margin: 10px;
   border-radius: 99px;
 }

@@ -5,20 +5,23 @@ import { useTranslation } from "react-i18next"
 type IconButton = {
   iconName: string
   labelKey: string
-  className?: string
+  classNameText?: string
+  classNameButton?: string
   onClick?: () => void
   type?: "submit" | "reset" | "button" | undefined
 }
 
-export const IconButton: React.FC<IconButton> = ({ iconName, labelKey, className, onClick, type }) => {
+export const IconButton: React.FC<IconButton> = ({ iconName, labelKey, classNameButton, classNameText, onClick, type }) => {
   const { t } = useTranslation()
 
+  const concatClassNameButton = `${classNameButton} icon-button`
+
   return(
-    <button onClick={onClick} className="icon-button" type={type}>
+    <button onClick={onClick} className={concatClassNameButton ??"icon-button"} type={type}>
       <span className="material-symbols-outlined icon-size">
         {iconName}
       </span>
-      <p className={className ?? ''}>{t(labelKey)}</p>
+      <p className={classNameText ?? ''}>{t(labelKey)}</p>
     </button>
   )
 }

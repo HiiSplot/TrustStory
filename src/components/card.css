@@ -65,6 +65,11 @@
   cursor: pointer;
 }
 
+.image-icon {
+  font-size: 80px;
+  color: #1F2A44;
+}
+
 .card-container__text-content {
   display: flex;
   flex-direction: column;

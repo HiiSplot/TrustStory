@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 70vh;
-  width: 98vw;
+  min-height: 40vh;
+  width: 100%;
 }
 
 .grid-container__grid-list {
@@ -21,11 +21,11 @@
 }
 
 .no-stories-container__link {
-  margin: 10px;
   background-color: #f8b179;
-  color: #1F2A44;
-  padding: 10px;
   border-radius: 3px;
+  color: #1F2A44;
+  margin: 10px;
+  padding: 10px 25px;
 }
 
 .no-stories-container__link:hover {
