@@ -1,3 +1,5 @@
+import { USER_ID } from "../context/AuthContext";
+
 interface SignUpData {
   firstName: string;
   lastName: string;
@@ -121,9 +123,8 @@ export const onSignInValidate = async (data: LoginData) => {
 }
 
 export const getInformations = async () => {
-  const userId = localStorage.getItem('userId');
   try {
-    const response = await fetch(`http://localhost:3000/profil/${userId}`, {
+    const response = await fetch(`http://localhost:3000/profil/${USER_ID}`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })
@@ -139,9 +140,8 @@ export const getInformations = async () => {
 }
 
 export const postInFavorites = async (storyId: number) => {
-  const userId = localStorage.getItem('userId');
   try {
-    const response = await fetch(`http://localhost:3000/stories/${storyId}/${userId}`, {
+    const response = await fetch(`http://localhost:3000/stories/${storyId}/${USER_ID}`, {
       method: 'POST',
       headers: {'Content-Type' : 'application/json'}
     })
@@ -157,9 +157,8 @@ export const postInFavorites = async (storyId: number) => {
 }
 
 export const getFavorites = async () => {
-  const userId = localStorage.getItem('userId');
   try {
-    const response = await fetch(`http://localhost:3000/favorites/${userId}`, {
+    const response = await fetch(`http://localhost:3000/favorites/${USER_ID}`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })
@@ -191,9 +190,60 @@ export const getStoriesByUser = async (userId: number) => {
   }
 }
 
+export const getStoryById = async (storyId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/story/${storyId}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const deleteStoryById = async (storyId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/story/${storyId}`, {
+      method: 'DELETE',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 export const getUser = async (userId: number) => {
   try {
     const response = await fetch(`http://localhost:3000/user/${userId}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const getFavoritesCount = async (storyId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/favorites/${storyId}`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })

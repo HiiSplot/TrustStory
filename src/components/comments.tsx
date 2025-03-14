@@ -1,9 +1,10 @@
 import React from "react"
 import { TextArea } from "./text-area";
 import { Button } from "./button";
-import './comments.css'
 import { getUser } from "../api/api";
 import { t } from "i18next";
+import { USER_ID } from "../context/AuthContext";
+import './comments.css'
 
 type Comments = {
   storyId: number
@@ -23,8 +24,7 @@ export const Comments: React.FC<CommentsProps> = ({ storyId }) => {
 
   const fetchUser = React.useCallback(async () => {
     try {
-      const userId = Number(localStorage.getItem('userId'))
-      const data = await getUser(userId)
+      const data = await getUser(Number(USER_ID))
       setPseudo(data.name)
     } catch (error) {
       console.error('Erreur lors de la récupération de l\'utilisateur :', error)

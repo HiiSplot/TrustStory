@@ -1,21 +1,25 @@
 import React from "react"
 import { t } from "i18next"
 import { Title } from "../components/title"
-import { getInformations } from "../api/api"
+import { getFavorites, getInformations, getStoriesByUser } from "../api/api"
 import { IconButton } from "../components/icon-button"
 import { FavoriteStories } from "./FavoriteStories"
 import { PostedStories } from "./PostedStories"
+import { USER_ID } from "../context/AuthContext"
 import './style/form.css'
 import './style/profil.css'
+import { Story } from "./Stories"
 
 export const Profil: React.FC = () => {
   const previousTargetRef = React.useRef<HTMLElement | null>(null)
   const defaultLinkRef = React.useRef<HTMLAnchorElement | null>(null)
-  const userId = localStorage.getItem('userId')
 
   const [activeTab, setActiveTab] = React.useState<string>('posted-stories')
   const [iconButtonName, setIconButtonName] = React.useState<string>('add')
   const [isFollowed, setIsFollowed] = React.useState<boolean>(false)
+  const [favoritesStories, setFavoritesStories] = React.useState<Story[]>([])
+  const [postedStories, setPostedStories] = React.useState<Story[]>([])
+  const [isLoading, setIsLoading] = React.useState(false)
   const [profilInformations, setProfilInformations] = React.useState({
     id: '',
     name: '',
@@ -24,7 +28,7 @@ export const Profil: React.FC = () => {
     city: '',
   })
 
-  const isCurrentUser = userId === profilInformations.id
+  const isCurrentUser = USER_ID === profilInformations.id
   const name = 'Laura Bensimon'
   
   const fetchProfil = async () => {
@@ -35,6 +39,28 @@ export const Profil: React.FC = () => {
       console.error('Erreur lors de la récupération des informations du profil :', error)
     }
   };
+
+  const fetchFavorites = async () => {
+    try {
+      // setIsLoading(true)
+      const data = await getFavorites()
+      setFavoritesStories(data)
+      setIsLoading(false)
+    } catch (error) {
+      console.error('Erreur lors de la récupération des favoris :', error)
+    }
+  }
+
+  const fetchStories = async () => {
+    try {
+      // setIsLoading(true)
+      const data = await getStoriesByUser(Number(USER_ID))
+      setPostedStories(data)
+      setIsLoading(false)
+    } catch (error) {
+      console.error('Erreur lors de la récupération des histoires postées :', error)
+    }
+  }
 
   const toggleFollowButton = (iconName: string) => {
     if (iconName === 'add') {
@@ -61,6 +87,9 @@ export const Profil: React.FC = () => {
 
   React.useEffect(() => {
     fetchProfil()
+    fetchFavorites()
+    fetchStories()
+
     if (defaultLinkRef.current) {
       defaultLinkRef.current.classList.add("default");
       previousTargetRef.current = defaultLinkRef.current;
@@ -102,7 +131,7 @@ export const Profil: React.FC = () => {
               edit_square
             </span>
             <p className="profil-container__header__user-infos__stories-container__text">
-              5 stories
+              {t("profil.stories", { count: postedStories.length })}
             </p>
           </div>
           <div className="profil-container__header__user-infos__stories-container">
@@ -110,7 +139,7 @@ export const Profil: React.FC = () => {
               favorite
             </span>
             <p className="profil-container__header__user-infos__stories-container__text">
-              12 stories
+            {t("profil.stories", { count: favoritesStories.length })}
             </p>
           </div>
         </div>
@@ -143,7 +172,7 @@ export const Profil: React.FC = () => {
             onClick={(e) => handleChangeRubric(e, 'posted-stories')}
             ref={defaultLinkRef}
           >
-            {t("profil.postedStoryLink")}
+            {t("profil.link.postedStory")}
           </a>
           <a
             href=""
@@ -151,12 +180,14 @@ export const Profil: React.FC = () => {
             className="profil-content__links"
             onClick={(e) => handleChangeRubric(e, 'favorite-stories')}
           >
-            {t("profil.favoriteStoriesLink")}
+            {t("profil.link.favoriteStories")}
           </a>
         </div>
 
         <div style={{ position: 'relative'}}>
-          {activeTab === 'posted-stories' ? <PostedStories /> : <FavoriteStories />}
+          {activeTab === 'posted-stories' ?
+          <PostedStories isLoading={isLoading} postedStories={postedStories} />
+          : <FavoriteStories isLoading={isLoading} favoritesStories={favoritesStories} />}
         </div>
       </div>
 

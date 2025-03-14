@@ -32,12 +32,11 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1.1;
   color: #E8F0FE;
   font-family: "Figtree", sans-serif;
   font-weight: 900;
-  font-size: 3em;
 }
 
 button {
@@ -54,10 +53,6 @@ button {
 button:hover {
   color:#d46d1e;
 }
-/* button:focus,
-button:focus-visible {
-  transform: scale(0.98);
-} */
 
 @media (prefers-color-scheme: light) {
   :root {

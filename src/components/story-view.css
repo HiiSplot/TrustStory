@@ -52,6 +52,7 @@
   padding: 15px;
 }
 
+
 .story-container__subtitle {
   display: flex;
   justify-content: center;
@@ -88,7 +89,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .story-view__icon {
@@ -96,7 +98,6 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 18ch;
   height: 40px;
   padding: 10px;
   padding: 0.6em 1.2em;

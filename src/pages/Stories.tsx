@@ -87,7 +87,7 @@ const fakeStories: Story[] = [
 ]
 
 export const Stories: React.FC = () => {
-  const { t } = useTranslation()
+  const [isFormEdit, setIsFormEdit] = React.useState(false)
   const [isFormOpened, setIsFormOpened] = React.useState(false)
   const [isStoryOpened, setIsStoryOpened] = React.useState(false)
   const [storyId, setStoryId] = React.useState<number>(0)
@@ -95,6 +95,8 @@ export const Stories: React.FC = () => {
   const [stories, setStories] = React.useState<Story[]>([])
   const [categories, setCategories] = React.useState<Categories[]>([])
   const [isLoading, setIsLoading] = React.useState(true)
+  
+  const { t } = useTranslation()
 
   const fetchCategories = async () => {
     try {
@@ -168,7 +170,7 @@ export const Stories: React.FC = () => {
           <IconButton
             classNameText='stories-buttons-container__buttons__icon-button'
             iconName={isCardsDisplay ? "menu" : "check_box_outline_blank"}
-            labelKey={isCardsDisplay ? 'Liste' : 'Grid'}
+            labelKey={isCardsDisplay ? 'List' : 'Grid'}
             onClick={toggleDisplay}
           />
           <IconButton
@@ -201,14 +203,19 @@ export const Stories: React.FC = () => {
         {isLoading ? (
           <PageLoader />
         ) : isCardsDisplay ? (
-          <Grid items={stories} setIsStoryOpened={setIsStoryOpened} setStoryId={setStoryId} />
+          <Grid items={stories} setIsFormOpened={setIsFormOpened} setIsStoryOpened={setIsStoryOpened} setStoryId={setStoryId} setIsFormEdit={setIsFormEdit} />
         ) : (
           <MyTable items={stories} setIsStoryOpened={setIsStoryOpened} setStoryId={setStoryId} />
         )}
       </div>
 
       <MyModal isOpened={isFormOpened} setIsOpened={setIsFormOpened}>
-        <StoryForm setIsOpened={setIsFormOpened} />
+        <StoryForm
+          setIsOpened={setIsFormOpened}
+          isFormEdit={isFormEdit}
+          storyId={storyId}
+          fakeStories={fakeStories}
+        />
       </MyModal>
 
       <MyModal isOpened={isStoryOpened} setIsOpened={setIsStoryOpened}>

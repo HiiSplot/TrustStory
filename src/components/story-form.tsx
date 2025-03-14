@@ -4,13 +4,16 @@ import { Form } from "react-router-dom"
 import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
-import './story-form.css'
-import { Categories } from "../pages/Stories";
-import { onCreateStory } from "../api/api";
+import { Categories, Story } from "../pages/Stories";
+import { getStoryById, onCreateStory } from "../api/api";
 import { MySelect } from "./select";
+import './story-form.css'
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
+  isFormEdit: boolean
+  storyId: number
+  fakeStories: Story[]
 }
 
 const fakeCategories: Categories[] = [
@@ -66,7 +69,7 @@ const fakeCategories: Categories[] = [
   }
 ]
 
-export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
+export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, isFormEdit, storyId, fakeStories }) => {
   const { t } = useTranslation()
 
   const dateNow = new Date().toISOString().split('T')[0]
@@ -76,12 +79,28 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened }) => {
   const [author, setAuthor] = React.useState<string>('')
   const [description, setDescription] = React.useState<string>('')
 
+  const fetchStoryById = async (id: number) => {
+    try {
+      const data = await getStoryById(id)
+      setTitle(data.title)
+      setDate(data.date)
+      setAuthor(data.author)
+      setDescription(data.description)
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'histoire :', error)
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
     onCreateStory({ title, date, author, description })
     setIsOpened(false)
   }
+
+  React.useEffect(() => {
+    if (isFormEdit) fetchStoryById(storyId)
+  }, [storyId, isFormEdit])
 
   return(
     <div className='form-container'>

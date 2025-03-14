@@ -1,8 +1,9 @@
 import React from 'react'
 import './card.css'
 import { t } from 'i18next'
-import { postInFavorites } from '../api/api'
+import { deleteStoryById, postInFavorites } from '../api/api'
 import { Button } from './button'
+import { USER_ID } from '../context/AuthContext'
 
 type Card = {
   id: number
@@ -12,26 +13,39 @@ type Card = {
   description: string
   setStoryId: React.Dispatch<React.SetStateAction<number>>
   setIsStoryOpened: React.Dispatch<React.SetStateAction<boolean>>
+  setIsFormOpened: React.Dispatch<React.SetStateAction<boolean>>
+  setIsFormEdit: React.Dispatch<React.SetStateAction<boolean>>
   FromStories?: boolean
 }
 
-export const Card: React.FC<Card> = ({ id, title, date, author, description, setStoryId, setIsStoryOpened, FromStories }) => {
-  const userId = localStorage.getItem('userId')
+export const Card: React.FC<Card> = ({ id, title, date, author, description, setStoryId, setIsFormOpened, setIsStoryOpened, setIsFormEdit, FromStories }) => {
 
   const [isUserCanEdit, setIsUserCanEdit] = React.useState<boolean>(false)
   const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
 
-  if (userId === id.toString()) {
-    setIsUserCanEdit(true)
-  }
+  React.useEffect(() => {
+    if (USER_ID === id.toString()) {
+      setIsUserCanEdit(true)
+    }
+  }, [id])
 
   const favoriteToggle = (storyId: number) => {
     setIsFavorite(!isFavorite)
     postInFavorites(storyId)
   }
 
-  const onViewMore = () => {
+  const editStory = (storyId: number) => {
+    setIsFormOpened(true)
+    setIsFormEdit(true)
+    setStoryId(storyId)
+  }
+
+  const deleteStory = (storyId: number) => {
+    deleteStoryById(storyId)
+  }
+
+  const viewMore = () => {
     setStoryId(id)
     setIsStoryOpened(true)
   }
@@ -40,9 +54,14 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, set
     <div className='card-container'>
 
       {isUserCanEdit &&
-        <div className='card-container__edit-icon'>
+      <div className='card-container__right-icons-container'>
+        <div className='card-container__edit-icon' onClick={() => editStory(id)}>
           <span className="material-symbols-outlined">edit</span>
         </div>
+        <div className='card-container__edit-icon' onClick={() => deleteStory(id)}>
+          <span className="material-symbols-outlined">delete</span>
+        </div>
+      </div>
       }
       <div className='card-container__image-container'>
         <div className='card-container__date-container'>
@@ -69,7 +88,7 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, set
           <p ref={descriptionRef} >{description}</p>
         </div>
         <div className='card-container__button-container'>
-          <Button labelKey='Voir plus' type='button' className='card-container__button' onClick={onViewMore}/>
+          <Button labelKey='Voir plus' type='button' className='card-container__button' onClick={viewMore}/>
               {FromStories ? (
                 <div className='card-container__icons-container' onClick={() => favoriteToggle(id)} >
                   <div className="icon">

@@ -6,6 +6,8 @@ type AuthContextType = {
   logout: () => void;
 };
 
+export const USER_ID = localStorage.getItem("userId");
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

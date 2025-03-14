@@ -8,10 +8,12 @@ import { t } from "i18next"
 type GridListProps = {
   items: Story[]
   setIsStoryOpened: React.Dispatch<React.SetStateAction<boolean>>
+  setIsFormOpened: React.Dispatch<React.SetStateAction<boolean>>
+  setIsFormEdit: React.Dispatch<React.SetStateAction<boolean>>
   setStoryId: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const Grid: React.FC<GridListProps> = ({ items, setIsStoryOpened, setStoryId }) => {
+export const Grid: React.FC<GridListProps> = ({ items, setIsStoryOpened, setIsFormOpened, setStoryId, setIsFormEdit }) => {
 
   return (
     <GridList items={items} aria-label="Stories list" className='grid-container__grid'>
@@ -24,7 +26,9 @@ export const Grid: React.FC<GridListProps> = ({ items, setIsStoryOpened, setStor
             date={item.date} 
             author={item.author} 
             description={item.description}
+            setIsFormOpened={setIsFormOpened}
             setIsStoryOpened={setIsStoryOpened}
+            setIsFormEdit={setIsFormEdit}
             setStoryId={setStoryId}
             FromStories
           />

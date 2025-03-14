@@ -83,16 +83,23 @@
       "categories": "Categories"
     },
     "postedBy": "Posted by",
-    "author": "You",
+    "author": "you",
     "noStory": "No story to show"
   },
 
   "profil": {
+    "button": {
+      "postStory": "Post your first story",
+      "favoriteStory": "Add your first story"
+    },
+    "link": {
+      "postedStory": "Posted stories",
+      "favoriteStories": "Favorite stories"
+    },
+    "stories_zero": "{{ count }} story",
+    "stories_one" : "{{count}} story",
+    "stories_other": "{{count}} stories",
     "title": "Profil",
-    "postedStoryLink": "Posted stories",
-    "favoriteStoriesLink": "Favorite stories",
-    "postStoryButton": "Post your first story",
-    "favoriteStoryButton": "Add your first story",
     "noStory": "No story to show"
   },
 

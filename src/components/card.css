@@ -6,6 +6,17 @@
   position: relative;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  position: relative;
+}
+
+.card-container__right-icons-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 4%;
+  right: 3%;
+  z-index: 1;
+  gap: 10px;
 }
 
 .card-container__edit-icon {
@@ -18,9 +29,6 @@
   display: flex;
   justify-content: center;
   padding: 5px;
-  position: absolute;
-  right: 3%;
-  top: 4%;
   z-index: 1;
 }
 
@@ -94,7 +102,7 @@
 .card-container__subtitle {
   display: flex;
   align-items: center;
-  gap: 10px
+  gap: 5px
 }
 
 .card-container__descrption-buttons-container {

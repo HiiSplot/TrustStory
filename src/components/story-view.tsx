@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next"
 import { Story } from "../pages/Stories";
 import './story-view.css'
-import { postInFavorites } from "../api/api";
+import { getFavoritesCount, postInFavorites } from "../api/api";
 import { Comments } from "./comments";
 
 type StoryView = {
@@ -16,6 +16,12 @@ export const StoryView: React.FC<StoryView> = ({ storyId, stories, setIsOpened }
   const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
   const [iconButtonName, setIconButtonName] = React.useState<string>('add')
   const [iconPersonName, setIconPersonName] = React.useState<string>('person_add')
+  const [favoritesCount, setFavoritesCount] = React.useState<number>(0)
+
+  const countFavorites = async (storyId: number) => {
+    const data = await getFavoritesCount(storyId)
+    setFavoritesCount(data)
+  }
 
   const toggleFollowButton = (iconName: string) => {
     if (iconName === 'add') {
@@ -27,10 +33,18 @@ export const StoryView: React.FC<StoryView> = ({ storyId, stories, setIsOpened }
     }
   }
 
+  const handleFavoriteClick = () => {
+    setFavoritesCount((prev) => (isFavorite ? prev - 1 : prev + 1))
+  };
+
   const favoriteToggle = (storyId: number) => {
     setIsFavorite(!isFavorite)
     postInFavorites(storyId)
   }
+
+  React.useEffect(() => {
+    countFavorites(storyId)
+  }, [storyId])
 
   return(
     <div className='story-container'>
@@ -42,12 +56,12 @@ export const StoryView: React.FC<StoryView> = ({ storyId, stories, setIsOpened }
         {stories.filter(story => story.id === storyId).map((story) => (
           <>
             <h1 className='story-container__title'>{story.title}</h1>
-                           
+            
             <div className='story-container__buttons-container'>
               <div className='card-container__icons-container' onClick={() => favoriteToggle(storyId)} >
-                <button className="story-view__icon">
+                <button className="story-view__icon" onClick={handleFavoriteClick }>
                   <i className={isFavorite ? "fa-solid fa-heart heart" : "fa-regular fa-heart heart"} />
-                  {isFavorite ? t("story.form.button.removeFavorite") : t("story.form.button.addFavorite")}
+                  {favoritesCount}
                 </button>
               </div>
             </div>

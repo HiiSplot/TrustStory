@@ -12,7 +12,6 @@ export type Items = {
 
 export const Nav: React.FC = () => {
   const { isUserConnected, logout } = useAuth();
-  const userId = localStorage.getItem('userId');
   
   return (
     <nav className='nav-container'>
@@ -24,8 +23,7 @@ export const Nav: React.FC = () => {
           <li><a href="/stories">{t("nav.home")}</a></li>
           {/* {isUserConnected ? (
             <> */}
-              <li><a href="/favorites">{t("nav.favoriteStories")}</a></li>
-              <li><a href="/profil/:userId">{t("nav.profil")}</a></li>
+              <li><a href="/profil/:USER_ID">{t("nav.profil")}</a></li>
               <li><a href="/login" onClick={logout}>{t("nav.logout")}</a></li>
             {/* </>
           ) : (
