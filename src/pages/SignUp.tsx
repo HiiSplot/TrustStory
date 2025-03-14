@@ -52,6 +52,13 @@ export const SignUp: React.FC = () => {
       <h1>{t("signUp.title")}</h1>
       <Form onSubmit={onSubmitForm} style={{ width: '40%'}}>
         <Input
+          textKey={t("signUp.form.lastName")}
+          type="text"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
+        <Input
           textKey={t("signUp.form.firstName")}
           type="text"
           name="firstName"
@@ -59,10 +66,10 @@ export const SignUp: React.FC = () => {
           onChange={handleChange}
         />
         <Input
-          textKey={t("signUp.form.lastName")}
+          textKey={t("signUp.form.mail")}
           type="text"
-          name="lastName"
-          value={formData.lastName}
+          name="email"
+          value={formData.email}
           onChange={handleChange}
         />
         <Input
@@ -72,13 +79,6 @@ export const SignUp: React.FC = () => {
           value={formData.password}
           onChange={handleChange}
           />
-        <Input
-          textKey={t("signUp.form.mail")}
-          type="text"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
         <Input
           textKey={t("signUp.form.birthDate")}
           type="date"
