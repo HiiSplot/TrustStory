@@ -5,15 +5,17 @@ import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
 import { Categories, Story } from "../pages/Stories";
-import { getStoryById, onCreateStory } from "../api/api";
+import { getInformations, getStoryById, onCreateStory } from "../api/api";
 import { MySelect } from "./select";
 import './story-form.css'
+import { USER_ID } from '../context/AuthContext';
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
-  isFormEdit: boolean
-  storyId: number
-  fakeStories: Story[]
+  isFormEdit?: boolean
+  storyId?: number
+  stories?: Story[]
+  setStories: React.Dispatch<React.SetStateAction<Story[]>>
 }
 
 const fakeCategories: Categories[] = [
@@ -69,7 +71,13 @@ const fakeCategories: Categories[] = [
   }
 ]
 
-export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, isFormEdit, storyId, fakeStories }) => {
+export const StoryForm: React.FC<StoryForm> = ({
+  setIsOpened,
+  isFormEdit,
+  storyId,
+  stories,
+  setStories
+}) => {
   const { t } = useTranslation()
 
   const dateNow = new Date().toISOString().split('T')[0]
@@ -78,6 +86,11 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, isFormEdit, storyI
   const [date, setDate] = React.useState(dateNow)
   const [author, setAuthor] = React.useState<string>('')
   const [description, setDescription] = React.useState<string>('')
+
+  const getCurrentUser = async () => {
+    const data = await getInformations(Number(USER_ID))
+    setAuthor(data.pseudo)
+  }
 
   const fetchStoryById = async (id: number) => {
     try {
@@ -91,15 +104,33 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, isFormEdit, storyI
     }
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const userId: number = Number(USER_ID)
+    const categoryId: number = 1
+
+    const newStoryData: Omit<Story, 'id'> = {
+      title,
+      date,
+      author,
+      description,
+      categoryId,
+      userId,
+      isFavorite: false
+    };
     
-    onCreateStory({ title, date, author, description })
+    try {
+    await onCreateStory(newStoryData)
+    setStories((prevStories) => [...prevStories, newStoryData ])
     setIsOpened(false)
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'histoire :', error)
+    }
   }
 
   React.useEffect(() => {
-    if (isFormEdit) fetchStoryById(storyId)
+    if (isFormEdit && storyId) fetchStoryById(storyId)
+      getCurrentUser()
   }, [storyId, isFormEdit])
 
   return(
@@ -129,7 +160,7 @@ export const StoryForm: React.FC<StoryForm> = ({ setIsOpened, isFormEdit, storyI
           type="text"
           name="author"
           value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+          isDisabled={true}
         />
         
         <MySelect items={fakeCategories} name="categories" onSelect={(item) => console.log(item)} />

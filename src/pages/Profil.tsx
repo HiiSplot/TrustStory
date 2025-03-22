@@ -1,16 +1,18 @@
 import React from "react"
 import { t } from "i18next"
 import { Title } from "../components/title"
-import { getFavorites, getInformations, getStoriesByUser } from "../api/api"
+import { getFavoritesByUser, getInformations, getStoriesByUser } from "../api/api"
 import { IconButton } from "../components/icon-button"
 import { FavoriteStories } from "./FavoriteStories"
 import { PostedStories } from "./PostedStories"
-import { USER_ID } from "../context/AuthContext"
+import { Story } from "./Stories"
+import { useParams } from "react-router-dom"
 import './style/form.css'
 import './style/profil.css'
-import { Story } from "./Stories"
 
 export const Profil: React.FC = () => {
+  const { userId } = useParams()
+
   const previousTargetRef = React.useRef<HTMLElement | null>(null)
   const defaultLinkRef = React.useRef<HTMLAnchorElement | null>(null)
 
@@ -20,21 +22,24 @@ export const Profil: React.FC = () => {
   const [favoritesStories, setFavoritesStories] = React.useState<Story[]>([])
   const [postedStories, setPostedStories] = React.useState<Story[]>([])
   const [isLoading, setIsLoading] = React.useState(false)
-  const [profilInformations, setProfilInformations] = React.useState({
+  const [userData, setUserData] = React.useState({
     id: '',
-    name: '',
+    firstname: '',
+    lastname: '',
+    pseudo: '',
     email: '',
     birthday: '',
     city: '',
   })
 
-  const isCurrentUser = USER_ID === profilInformations.id
-  const name = 'Laura Bensimon'
+  const isCurrentUser = userId === userData.id
+
+  if (!userId) return
   
   const fetchProfil = async () => {
     try {
-      const data = await getInformations()
-      setProfilInformations(data)
+      const data = await getInformations(Number(userId))
+      setUserData(data)
     } catch (error) {
       console.error('Erreur lors de la récupération des informations du profil :', error)
     }
@@ -42,8 +47,8 @@ export const Profil: React.FC = () => {
 
   const fetchFavorites = async () => {
     try {
-      // setIsLoading(true)
-      const data = await getFavorites()
+      setIsLoading(true)
+      const data = await getFavoritesByUser(Number(userId))
       setFavoritesStories(data)
       setIsLoading(false)
     } catch (error) {
@@ -53,8 +58,8 @@ export const Profil: React.FC = () => {
 
   const fetchStories = async () => {
     try {
-      // setIsLoading(true)
-      const data = await getStoriesByUser(Number(USER_ID))
+      setIsLoading(true)
+      const data = await getStoriesByUser(Number(userId))
       setPostedStories(data)
       setIsLoading(false)
     } catch (error) {
@@ -85,6 +90,8 @@ export const Profil: React.FC = () => {
     previousTargetRef.current = target
   }
 
+  const name = `${userData.firstname} ${userData.lastname}`
+
   React.useEffect(() => {
     fetchProfil()
     fetchFavorites()
@@ -112,13 +119,14 @@ export const Profil: React.FC = () => {
             <span className="material-symbols-outlined">
               home_pin
             </span>
-            <p>{profilInformations.city}Nantes</p>
+            <p>{userData.city}Nantes</p>
           </div>
         </div>
 
         <div className="profil-container__header__user-infos" >
           <div className="profil-container__header__user-infos__buttons-container">
-            <Title title={name} />
+            <Title title={name}/>
+            <p>@{userData.pseudo}</p>
             {isCurrentUser &&
             <>
               <IconButton classNameText='profil-container__header__user-infos__buttons-container__icon' classNameButton={isFollowed ? 'follow' : ''} iconName={iconButtonName} type='button' labelKey={isFollowed ? t("story.button.unfollow") : t("story.button.follow")} onClick={() => {toggleFollowButton(iconButtonName)}} />
@@ -186,7 +194,7 @@ export const Profil: React.FC = () => {
 
         <div style={{ position: 'relative'}}>
           {activeTab === 'posted-stories' ?
-          <PostedStories isLoading={isLoading} postedStories={postedStories} />
+          <PostedStories isLoading={isLoading} postedStories={postedStories} setPostedStories={setPostedStories} />
           : <FavoriteStories isLoading={isLoading} favoritesStories={favoritesStories} />}
         </div>
       </div>

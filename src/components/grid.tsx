@@ -7,20 +7,34 @@ import { t } from "i18next"
 
 type GridListProps = {
   items: Story[]
+  setStories: React.Dispatch<React.SetStateAction<Story[]>>
   setIsStoryOpened: React.Dispatch<React.SetStateAction<boolean>>
   setIsFormOpened: React.Dispatch<React.SetStateAction<boolean>>
   setIsFormEdit: React.Dispatch<React.SetStateAction<boolean>>
   setStoryId: React.Dispatch<React.SetStateAction<number>>
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
+  updateStoryFavorite: (storyId: number, isFav: boolean) => void
 }
 
-export const Grid: React.FC<GridListProps> = ({ items, setIsStoryOpened, setIsFormOpened, setStoryId, setIsFormEdit }) => {
+export const Grid: React.FC<GridListProps> = ({
+  items,
+  setStories,
+  setIsStoryOpened,
+  setIsFormOpened,
+  setStoryId,
+  setIsFormEdit,
+  setIsFavorite,
+  updateStoryFavorite
+}) => {
+  
 
   return (
     <GridList items={items} aria-label="Stories list" className='grid-container__grid'>
     {items.length > 0 ? (
       items.map((item, index) => (
         <GridListItem key={index}>
-          <Card 
+          <Card
+            userId={item.user_id}
             id={item.id}
             title={item.title} 
             date={item.date} 
@@ -30,6 +44,10 @@ export const Grid: React.FC<GridListProps> = ({ items, setIsStoryOpened, setIsFo
             setIsStoryOpened={setIsStoryOpened}
             setIsFormEdit={setIsFormEdit}
             setStoryId={setStoryId}
+            updateStoryFavorite={updateStoryFavorite}
+            isFavorite={item.isFavorite}
+            setIsFavorite={setIsFavorite}
+            setStories={setStories}
             FromStories
           />
         </GridListItem>

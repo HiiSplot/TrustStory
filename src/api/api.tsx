@@ -1,8 +1,10 @@
 import { USER_ID } from "../context/AuthContext";
+import { Story } from "../pages/Stories";
 
 interface SignUpData {
   firstName: string;
   lastName: string;
+  pseudo: string;
   password: string;
   email: string;
   date: string;
@@ -11,13 +13,6 @@ interface SignUpData {
 interface LoginData {
   user: string;
   password: string;
-}
-
-interface StoryData {
-  title: string
-  date: string
-  author: string
-  description: string
 }
 
 export const getCategories = async () => {
@@ -61,7 +56,7 @@ export const getStories = async (filters = {}) => {
   }
 }
 
-export const onCreateStory = async (data: StoryData) => {
+export const onCreateStory = async (data: Omit<Story, 'id' | 'isFavorite'>): Promise<Story> => {
   try {    
     const response = await fetch('http://localhost:3000/stories', {
       method: 'POST',
@@ -74,6 +69,25 @@ export const onCreateStory = async (data: StoryData) => {
       return responseData
     } else {
       throw new Error("Erreur lors de la création de l'histoire");
+    }
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
+export const onDeleteStory = async (storyId: number) => {
+  try {    
+    const response = await fetch(`http://localhost:3000/stories/${storyId}`, {
+      method: 'DELETE',
+      headers: {'Content-Type' : 'application/json'}
+    });
+
+    if (response.ok) {      
+      const responseData = await response.json();
+      return responseData
+    } else {
+      throw new Error("Erreur lors de la suppression de l'histoire");
     }
   } catch (error) {
     console.log(error)
@@ -122,13 +136,13 @@ export const onSignInValidate = async (data: LoginData) => {
   }
 }
 
-export const getInformations = async () => {
+export const getInformations = async (userId: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/profil/${USER_ID}`, {
+    const response = await fetch(`http://localhost:3000/profil/${userId}`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })
-
+    
     if (response.ok) {
       const responseData = await response.json()
       return responseData
@@ -156,9 +170,43 @@ export const postInFavorites = async (storyId: number) => {
   }
 }
 
-export const getFavorites = async () => {
+export const removeFavorite = async (storyId: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/favorites/${USER_ID}`, {
+    const response = await fetch(`http://localhost:3000/stories/${storyId}/${USER_ID}`, {
+      method: 'DELETE',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const getFavoriteByStory = async (storyId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/stories/${storyId}/${USER_ID}`, {
+      method: 'GET',
+      headers: {'Content-Type' : 'application/json'}
+    })
+
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
+    }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const getFavoritesByUser = async (userId: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/profil/${userId}/favorite`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })
@@ -175,13 +223,14 @@ export const getFavorites = async () => {
 
 export const getStoriesByUser = async (userId: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/stories/${userId}`, {
+    const response = await fetch(`http://localhost:3000/profil/${userId}/stories`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })
+    
 
     if (response.ok) {
-      const responseData = await response.json()
+      const responseData = await response.json()      
       return responseData
     }
   } catch (error) {
@@ -227,23 +276,6 @@ export const deleteStoryById = async (storyId: number) => {
 export const getUser = async (userId: number) => {
   try {
     const response = await fetch(`http://localhost:3000/user/${userId}`, {
-      method: 'GET',
-      headers: {'Content-Type' : 'application/json'}
-    })
-
-    if (response.ok) {
-      const responseData = await response.json()
-      return responseData
-    }
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
-}
-
-export const getFavoritesCount = async (storyId: number) => {
-  try {
-    const response = await fetch(`http://localhost:3000/favorites/${storyId}`, {
       method: 'GET',
       headers: {'Content-Type' : 'application/json'}
     })

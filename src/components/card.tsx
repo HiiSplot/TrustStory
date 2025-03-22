@@ -1,11 +1,14 @@
 import React from 'react'
 import './card.css'
 import { t } from 'i18next'
-import { deleteStoryById, postInFavorites } from '../api/api'
+import { deleteStoryById, getFavoriteByStory, onDeleteStory, postInFavorites, removeFavorite } from '../api/api'
 import { Button } from './button'
 import { USER_ID } from '../context/AuthContext'
+import { Story } from '../pages/Stories'
+import { OtherProfil } from '../pages/OtherProfil'
 
 type Card = {
+  userId: number
   id: number
   title: string
   date: string
@@ -15,25 +18,51 @@ type Card = {
   setIsStoryOpened: React.Dispatch<React.SetStateAction<boolean>>
   setIsFormOpened: React.Dispatch<React.SetStateAction<boolean>>
   setIsFormEdit: React.Dispatch<React.SetStateAction<boolean>>
+  updateStoryFavorite: (storyId: number, isFav: boolean) => void
+  isFavorite: boolean
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
+  setStories: React.Dispatch<React.SetStateAction<Story[]>>
   FromStories?: boolean
 }
 
-export const Card: React.FC<Card> = ({ id, title, date, author, description, setStoryId, setIsFormOpened, setIsStoryOpened, setIsFormEdit, FromStories }) => {
+export const Card: React.FC<Card> = ({
+  userId,
+  id,
+  title,
+  date,
+  author,
+  description,
+  setStoryId,
+  setIsFormOpened,
+  setIsStoryOpened,
+  setIsFormEdit,
+  updateStoryFavorite,
+  isFavorite,
+  setIsFavorite,
+  setStories,
+  FromStories
+}) => {
 
   const [isUserCanEdit, setIsUserCanEdit] = React.useState<boolean>(false)
-  const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
 
-  React.useEffect(() => {
-    if (USER_ID === id.toString()) {
-      setIsUserCanEdit(true)
+  const favoriteToggle = async (storyId: number) => {
+    const newFavoriteState = !isFavorite
+  
+    setIsFavorite(newFavoriteState)
+    updateStoryFavorite(storyId, newFavoriteState)
+  
+    try {
+      if (newFavoriteState) {
+        await postInFavorites(storyId);
+      } else {
+        await removeFavorite(storyId);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour des favoris", error);
+      setIsFavorite(!newFavoriteState);
     }
-  }, [id])
-
-  const favoriteToggle = (storyId: number) => {
-    setIsFavorite(!isFavorite)
-    postInFavorites(storyId)
-  }
+  };
 
   const editStory = (storyId: number) => {
     setIsFormOpened(true)
@@ -42,13 +71,26 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, set
   }
 
   const deleteStory = (storyId: number) => {
-    deleteStoryById(storyId)
+    onDeleteStory(storyId)
+    setStories((prevStories) => prevStories.filter((story) => story.id !== storyId))
   }
 
   const viewMore = () => {
     setStoryId(id)
     setIsStoryOpened(true)
   }
+
+  const isUserLikedStory = async (storyId: number) => {
+    const data = await getFavoriteByStory(storyId)
+    setIsFavorite(data.length > 0)
+  }
+
+    React.useEffect(() => {
+    isUserLikedStory(id)
+    if (Number(USER_ID) === userId) {
+      setIsUserCanEdit(true)
+    }
+  }, [id])
 
   return(
     <div className='card-container'>
@@ -79,7 +121,12 @@ export const Card: React.FC<Card> = ({ id, title, date, author, description, set
           {isUserCanEdit ? (
             <p className='card-container__author'>{t("story.author")}</p>
           ) : (
-            <a className='card-container__author' href="">{author}</a>
+            <a className='card-container__author' href="" onClick={
+              (e) => {
+                e.preventDefault()
+                window.location.href = `/profil/${userId}`
+              }
+            }>{author}</a>
           )}
         </div>
 

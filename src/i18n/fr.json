@@ -60,7 +60,19 @@
     }
   },
   "profil": {
-    "title": "Profil"
+    "button": {
+      "postStory": "Post your first story",
+      "favoriteStory": "Add your first story"
+    },
+    "link": {
+      "postedStory": "Histoires postées",
+      "favoriteStories": "Histoires favorites"
+    },
+    "stories_zero": "{{ count }} histoire",
+    "stories_one" : "{{ count }} histoire",
+    "stories_other": "{{ count }} histoires",
+    "title": "Profil",
+    "noStory": "Aucune histoire"
   },
   "categories": {
     "title": "Catégories"

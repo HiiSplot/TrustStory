@@ -9,6 +9,7 @@ import './style/form.css'
 interface FormData {
   firstName: string
   lastName: string
+  pseudo: string
   email: string
   password: string
   date: string
@@ -22,6 +23,7 @@ export const SignUp: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
       firstName: '',
       lastName: '',
+      pseudo: '',
       email: '',
       password: '',
       date: '',
@@ -63,6 +65,13 @@ export const SignUp: React.FC = () => {
           type="text"
           name="firstName"
           value={formData.firstName}
+          onChange={handleChange}
+        />
+        <Input
+          textKey={t("signUp.form.pseudo")}
+          type="text"
+          name="pseudo"
+          value={formData.pseudo}
           onChange={handleChange}
         />
         <Input

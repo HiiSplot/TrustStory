@@ -45,7 +45,7 @@ export const MyTable: React.FC<MyTableProps> = ({ items, setIsStoryOpened, setSt
                 e.stopPropagation()
                 favoriteToggle( item.id)}
               }>
-              <div id={item.id.toString()} className="icon">
+              <div id={item.id} className="icon">
                 <i className={isFavorite ? "fa-solid fa-heart" : "fa-regular fa-heart"}></i>
               </div>
             </div>

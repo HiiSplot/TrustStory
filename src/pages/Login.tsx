@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Form, Link, useNavigate } from "react-router-dom"
+import { Form, Link } from "react-router-dom"
 import { Input } from "../components/input"
 import { Button } from "../components/button"
 import { onSignInValidate } from "../api/api"
@@ -14,7 +14,6 @@ type LoginData = {
 
 export const Login: React.FC = () => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const login = useAuth()
 
   const [loginData, setLoginData] = useState<LoginData>({
@@ -40,7 +39,7 @@ export const Login: React.FC = () => {
         localStorage.setItem("authToken", response.token);
         localStorage.setItem("userId", response.userId);
         login.login(response.token);
-        navigate('/profil/' + response.userId);
+        window.location.href = '/profil/' + response.userId
       } else {
         console.error("Authentification échouée : Pas de token reçu.");
       }

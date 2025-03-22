@@ -27,6 +27,7 @@
     "form": {
       "firstName": "Firstname",
       "lastName": "Lastname",
+      "pseudo": "Pseudo",
       "password": "Password",
       "mail": "Email",
       "birthDate": "Birthdate"
