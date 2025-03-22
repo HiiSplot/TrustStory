@@ -1,11 +1,12 @@
 import React from 'react'
 import './card.css'
 import { t } from 'i18next'
-import { deleteStoryById, getFavoriteByStory, onDeleteStory, postInFavorites, removeFavorite } from '../api/api'
+import { getFavoriteByStory, postInFavorites, removeFavorite } from '../api/api'
 import { Button } from './button'
 import { USER_ID } from '../context/AuthContext'
 import { Story } from '../pages/Stories'
-import { OtherProfil } from '../pages/OtherProfil'
+import { MyModal } from './modal'
+import { ConfirmModal } from './confirm-modal'
 
 type Card = {
   userId: number
@@ -44,6 +45,7 @@ export const Card: React.FC<Card> = ({
 }) => {
 
   const [isUserCanEdit, setIsUserCanEdit] = React.useState<boolean>(false)
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
 
   const favoriteToggle = async (storyId: number) => {
@@ -70,10 +72,7 @@ export const Card: React.FC<Card> = ({
     setStoryId(storyId)
   }
 
-  const deleteStory = (storyId: number) => {
-    onDeleteStory(storyId)
-    setStories((prevStories) => prevStories.filter((story) => story.id !== storyId))
-  }
+
 
   const viewMore = () => {
     setStoryId(id)
@@ -93,6 +92,7 @@ export const Card: React.FC<Card> = ({
   }, [id])
 
   return(
+    <>
     <div className='card-container'>
 
       {isUserCanEdit &&
@@ -100,7 +100,7 @@ export const Card: React.FC<Card> = ({
         <div className='card-container__edit-icon' onClick={() => editStory(id)}>
           <span className="material-symbols-outlined">edit</span>
         </div>
-        <div className='card-container__edit-icon' onClick={() => deleteStory(id)}>
+        <div className='card-container__edit-icon' onClick={() => setIsDeleteModalOpened(true)}>
           <span className="material-symbols-outlined">delete</span>
         </div>
       </div>
@@ -149,5 +149,14 @@ export const Card: React.FC<Card> = ({
         </div>
       </div>
     </div>
+
+    <MyModal 
+      isOpened={isDeleteModalOpened}
+      setIsOpened={setIsDeleteModalOpened}
+      className="confirm-modal"
+    >
+      <ConfirmModal setStories={setStories} setIsDeleteModalOpened={setIsDeleteModalOpened} id={id} />
+    </MyModal>
+    </>
   )
 }

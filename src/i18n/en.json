@@ -81,6 +81,7 @@
         "response": "Your response",
         "noComment": "No comment to show"
       },
+      "deleteConfirm": "Are you sure you want to delete this story ?",
       "categories": "Categories"
     },
     "postedBy": "Posted by",

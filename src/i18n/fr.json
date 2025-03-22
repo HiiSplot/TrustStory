@@ -8,6 +8,7 @@
     "profil": "Profil",
     "logout": "Déconnexion"
   },
+
   "login": {
     "title": "Connexion",
     "form": {
@@ -19,6 +20,7 @@
       }
     }
   },
+
   "signUp": {
     "title": "Inscription",
     "form": {
@@ -32,6 +34,7 @@
       "signIn": "Déjà membre ?"
     }
   },
+
   "home": {
     "title": "TrustStory",
     "form": {
@@ -51,14 +54,40 @@
     },
     "button": "Ajouter une histoire"
   },
+
   "story" : {
     "button" : {
       "back" : "Retour",
       "cancel" : "Annuler",
-      "follow": "Suivre l'auteur",
+      "follow": "S'abonner",
+      "unfollow": "Se désabonner",
+      "followAuthor": "Suivre l'auteur",
+      "unfollowAuthor": "Se désabonner de l'auter",
+      "message": "Message",
       "validation": "Ajouter"
-    }
+    },
+    "form": {
+      "button": {
+        "addFavorite": "Ajouter aux favoris",
+        "removeFavorite": "Supprimer des favories",
+        "post": "Poster",
+        "delete" : "Supprimer",
+        "cancel": "Annuler"
+      },
+      "comment": {
+        "title": "Commentaires",
+        "placeholder": "Ecrivez votre commentaire ici",
+        "response": "Votre réponse",
+        "noComment": "Pas de commentaire"
+      },
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer l'histoire ?",
+      "categories": "Catégories"
+    },
+    "postedBy": "Posté par",
+    "author": "vous",
+    "noStory": "Pas de story"
   },
+
   "profil": {
     "button": {
       "postStory": "Post your first story",
@@ -74,9 +103,11 @@
     "title": "Profil",
     "noStory": "Aucune histoire"
   },
+
   "categories": {
     "title": "Catégories"
   },
+
   "favorite": {
     "title": "Histoires favorites"
   }

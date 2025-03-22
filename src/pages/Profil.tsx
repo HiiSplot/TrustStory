@@ -9,6 +9,7 @@ import { Story } from "./Stories"
 import { useParams } from "react-router-dom"
 import './style/form.css'
 import './style/profil.css'
+import { USER_ID } from "../context/AuthContext"
 
 export const Profil: React.FC = () => {
   const { userId } = useParams()
@@ -32,7 +33,7 @@ export const Profil: React.FC = () => {
     city: '',
   })
 
-  const isCurrentUser = userId === userData.id
+  const isCurrentUser = Number(USER_ID) === Number(userData.id)
 
   if (!userId) return
   
@@ -119,7 +120,7 @@ export const Profil: React.FC = () => {
             <span className="material-symbols-outlined">
               home_pin
             </span>
-            <p>{userData.city}Nantes</p>
+            {isCurrentUser && !userData.city ? <a>Votre ville</a> : <p>{userData.city ?? "Inconnu"}</p>}
           </div>
         </div>
 
@@ -127,7 +128,7 @@ export const Profil: React.FC = () => {
           <div className="profil-container__header__user-infos__buttons-container">
             <Title title={name}/>
             <p>@{userData.pseudo}</p>
-            {isCurrentUser &&
+            {!isCurrentUser &&
             <>
               <IconButton classNameText='profil-container__header__user-infos__buttons-container__icon' classNameButton={isFollowed ? 'follow' : ''} iconName={iconButtonName} type='button' labelKey={isFollowed ? t("story.button.unfollow") : t("story.button.follow")} onClick={() => {toggleFollowButton(iconButtonName)}} />
               <IconButton iconName='mail' type='button' labelKey={t("story.button.message")} onClick={() => {}} />
