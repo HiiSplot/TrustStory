@@ -26,7 +26,6 @@ export const useFavorite = (storyId: number) => {
     const newFavoriteState = !isFavorite
     setIsFavorite(newFavoriteState)
     setFavoritesCount((prev) => newFavoriteState ? prev + 1 : prev - 1)
-    // updateStoryFavorite(storyId, newFavoriteState)
 
     try {
       if (newFavoriteState) {

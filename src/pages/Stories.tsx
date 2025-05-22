@@ -6,7 +6,7 @@ import { StoryForm } from "../components/story-form"
 import { Button } from "react-aria-components"
 import { IconButton } from "../components/icon-button"
 import { Filter } from "../components/filter"
-import { getCategories, getStories } from "../api/api"
+import { getCategories, getFavoriteByStory, getStories, postInFavorites, removeFavorite } from "../api/api"
 import { PageLoader } from "../components/page-loader"
 import { StoryView } from "../components/story-view"
 import { Grid } from "../components/grid"
@@ -18,13 +18,19 @@ export const Stories: React.FC = () => {
   const [isFormEdit, setIsFormEdit] = React.useState(false)
   const [isFormOpened, setIsFormOpened] = React.useState(false)
   const [isStoryOpened, setIsStoryOpened] = React.useState(false)
-  const [storyId, setStoryId] = React.useState<number>(0)
   const [isCardsDisplay, setIsCardsDisplay] = React.useState(true)
+  // const [isFavorite, setIsFavorite] = React.useState<boolean>(false)
+
+  const [storyId, setStoryId] = React.useState<number>(0)
+  const [favoritesCount, setFavoritesCount] = React.useState<number>(0)
+
   const [stories, setStories] = React.useState<Story[]>([])
   const [categories, setCategories] = React.useState<Select[]>([])
   const [isLoading, setIsLoading] = React.useState(true)
+
   const [filters, setFilters] = React.useState<number[]>([])
   const [searchValue, setSearchValue] = React.useState<string>('')
+
 
   const { t } = useTranslation()
   
@@ -55,32 +61,78 @@ export const Stories: React.FC = () => {
       setIsLoading(true)
       const data = await getStories({ filters, value: searchValue })
   
-      const newData: Story[] = data.map((story: any) => ({
-        userId: story.user_id,
-        id: story.id,
-        title: story.title,
-        date: (story.date),
-        author: story.author,
-        description: story.description,
-        categoryId: story.category_id,
-        isFavorite: false,
-      }));
+      const newData: Story[] = await Promise.all(
+        data.map(async (story: any) => {
+          const favorites = await getFavoriteByStory(story.id)
+          const isFavorite = favorites.length > 0
+          return {
+            userId: story.user_id,
+            id: story.id,
+            title: story.title,
+            date: story.date,
+            author: story.author,
+            description: story.description,
+            categoryId: story.category_id,
+            isFavorite: isFavorite,
+            favoritesCount: favorites.length
+          }
+        })
+      )
   
-      setStories(newData);
-      setIsLoading(false);
+      setStories(newData)
+      setIsLoading(false)
     } catch (error) {
-      console.error('Erreur lors de la récupération des histoires :', error);
-      setIsLoading(false);
+      console.error('Erreur lors de la récupération des histoires :', error)
+      setIsLoading(false)
     }
-  };
+  }
+  
 
   const updateStoryFavorite = (storyId: number, isFav: boolean) => {
-    setStories((prevStories) =>
-      prevStories.map((story) =>
+    setStories(prev =>
+      prev.map(story =>
         story.id === storyId ? { ...story, isFavorite: isFav } : story
       )
+    )
+  }
+
+  const fetchFavorite = async () => {
+    try {
+      const data = await getFavoriteByStory(storyId)
+      setFavoritesCount(data.length)
+    } catch (error) {
+      console.error("Erreur lors du chargement des favoris", error)
+    } 
+  }
+  
+  const toggleFavorite = async (storyId: number, currentFav: boolean) => {
+    const newFav = !currentFav
+    updateStoryFavorite(storyId, newFav)
+
+    setStories((prevStories) =>
+      prevStories.map((story) =>
+        story.id === storyId
+          ? {
+              ...story,
+              favoritesCount: newFav
+                ? (story.favoritesCount || 0) + 1
+                : Math.max((story.favoritesCount || 1) - 1, 0),
+            }
+          : story
+      )
     );
-  };
+  
+    try {
+      if (newFav) {
+        await postInFavorites(storyId)
+      } else {
+        await removeFavorite(storyId)
+      }
+    } catch (err) {
+      console.error("Erreur favori", err)
+      updateStoryFavorite(storyId, !newFav) // rollback
+    }
+  }
 
   const toggleDisplay = () => {
     setIsCardsDisplay(!isCardsDisplay)
@@ -132,7 +184,8 @@ export const Stories: React.FC = () => {
   }, [filters]);
   
   useEffect(() => {
-    fetchCategories(); // ← se fait une seule fois au chargement
+    fetchCategories();
+    fetchFavorite()
   }, []);
 
   return(
@@ -183,6 +236,7 @@ export const Stories: React.FC = () => {
             setStoryId={setStoryId}
             setIsFormEdit={setIsFormEdit}
             updateStoryFavorite={updateStoryFavorite}
+            toggleFavorite={toggleFavorite}
             />
         ) : (
           <MyTable items={stories} setIsStoryOpened={setIsStoryOpened} setStoryId={setStoryId} />
@@ -204,6 +258,11 @@ export const Stories: React.FC = () => {
           storyId={storyId}
           stories={stories}
           setIsOpened={setIsStoryOpened}
+          toggleFavorite={toggleFavorite}
+          setFavoritesCount={setFavoritesCount}
+          favoritesCount={favoritesCount}
+          // isFavorite={isFavorite}
+          // setIsFavorite={setIsFavorite}
         />
       </MyModal>
     </>

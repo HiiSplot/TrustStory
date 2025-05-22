@@ -17,6 +17,7 @@ export type Story = {
   categoryId: number
   userId: number
   isFavorite: boolean
+  favoritesCount: number
 }
 
 export type Select = {

@@ -13,6 +13,7 @@ type GridListProps = {
   setIsFormEdit: React.Dispatch<React.SetStateAction<boolean>>
   setStoryId: React.Dispatch<React.SetStateAction<number>>
   updateStoryFavorite: (storyId: number, isFav: boolean) => void
+  toggleFavorite: (storyId: number, currentFav: boolean) => void
 }
 
 export const Grid: React.FC<GridListProps> = ({
@@ -22,7 +23,8 @@ export const Grid: React.FC<GridListProps> = ({
   setIsFormOpened,
   setStoryId,
   setIsFormEdit,
-  updateStoryFavorite
+  updateStoryFavorite,
+  toggleFavorite
 }) => (
     <>
       {items.length > 0 ? (
@@ -44,6 +46,7 @@ export const Grid: React.FC<GridListProps> = ({
                 updateStoryFavorite={updateStoryFavorite}
                 isFavorite={item.isFavorite}
                 setStories={setStories}
+                toggleFavorite={toggleFavorite}
                 FromStories
               />
             </GridListItem>

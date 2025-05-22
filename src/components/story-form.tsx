@@ -4,11 +4,11 @@ import { Form } from "react-router-dom"
 import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
-import { Select, Story } from "../pages/Stories";
 import { getCategories, getInformations, getStoryById, onCreateStory } from "../api/api";
 import { MySelect } from "./select";
-import './story-form.css'
 import { USER_ID } from '../context/AuthContext';
+import { Select, Story } from "../api/types";
+import './story-form.css'
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
@@ -34,6 +34,7 @@ export const StoryForm: React.FC<StoryForm> = ({
   const [author, setAuthor] = React.useState<string>('')
   const [description, setDescription] = React.useState<string>('')
   const [categories, setCategories] = React.useState<Select[]>([])
+  const [categoryId, setCategoryId] = React.useState<number>(1)
 
   const getCurrentUser = async () => {
     const data = await getInformations(Number(USER_ID))
@@ -65,7 +66,6 @@ export const StoryForm: React.FC<StoryForm> = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const userId: number = Number(USER_ID)
-    const categoryId: number = 1
 
     const newStoryData: Omit<Story, 'id'> = {
       title,
@@ -91,7 +91,7 @@ export const StoryForm: React.FC<StoryForm> = ({
     if (isFormEdit && storyId) fetchStoryById(storyId)
     getCurrentUser()
     getAllCategories()
-  }, [storyId, isFormEdit])  
+  }, [storyId, isFormEdit])
 
   return(
     <div className='form-container'>
@@ -123,7 +123,7 @@ export const StoryForm: React.FC<StoryForm> = ({
           isDisabled={true}
         />
         
-        <MySelect items={categories} name="categories" onSelect={(item) => console.log(item)} />
+        <MySelect items={categories} name="categories" setCategoryId={setCategoryId} />
 
         <TextArea
           textKey={t("home.form.description")}

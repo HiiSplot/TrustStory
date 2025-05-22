@@ -1,13 +1,12 @@
 import React from 'react'
-import './card.css'
 import { t } from 'i18next'
-import { getCategoryName, postInFavorites, removeFavorite } from '../api/api'
+import { getCategoryName } from '../api/api'
 import { Button } from './button'
 import { USER_ID } from '../context/AuthContext'
 import { Story } from "../api/types"
 import { MyModal } from './modal'
 import { ConfirmModal } from './confirm-modal'
-import { useFavorite } from '../hooks/useFavorite'
+import './card.css'
 
 type Card = {
   userId: number
@@ -24,6 +23,7 @@ type Card = {
   updateStoryFavorite: (storyId: number, isFav: boolean) => void
   isFavorite: boolean
   setStories: React.Dispatch<React.SetStateAction<Story[]>>
+  toggleFavorite: (storyId: number, currentFav: boolean) => void
   FromStories?: boolean
 }
 
@@ -39,34 +39,15 @@ export const Card: React.FC<Card> = ({
   setIsFormOpened,
   setIsStoryOpened,
   setIsFormEdit,
-  updateStoryFavorite,
-  isFavorite,
   setStories,
+  toggleFavorite,
+  isFavorite,
   FromStories
 }) => {
   const [isUserCanEdit, setIsUserCanEdit] = React.useState<boolean>(false)
   const [isDeleteModalOpened, setIsDeleteModalOpened] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
   const [categoryName, setCategoryName] = React.useState<string>('')
-  const { setIsFavorite } = useFavorite(id)  
-
-  const favoriteToggle = async (storyId: number) => {
-    const newFavoriteState = !isFavorite
-  
-    setIsFavorite(newFavoriteState)
-    updateStoryFavorite(storyId, newFavoriteState)
-  
-    try {
-      if (newFavoriteState) {
-        await postInFavorites(storyId);
-      } else {
-        await removeFavorite(storyId);
-      }
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour des favoris", error);
-      setIsFavorite(!newFavoriteState);
-    }
-  };
 
   const fetchCategoryId = async (categoryId: number) => {
     const category = await getCategoryName(categoryId)
@@ -95,27 +76,12 @@ export const Card: React.FC<Card> = ({
   return(
     <>
     <div className='card-container'>
-
-      <div className='card-container__category'>
-        {categoryName}
-      </div>
-
-      {isUserCanEdit &&
-      <div className='card-container__right-icons-container'>
-        <div className='card-container__edit-icon' onClick={() => editStory(id)}>
-          <span className="material-symbols-outlined">edit</span>
-        </div>
-        <div className='card-container__edit-icon' onClick={() => setIsDeleteModalOpened(true)}>
-          <span className="material-symbols-outlined">delete</span>
-        </div>
-      </div>
-      }
       <div className='card-container__image-container'>
-        <div className='card-container__date-container'>
-          <p className='card-container__date-container__date'>{date}</p>
-        </div>
         <span className="material-symbols-outlined image-icon">image</span>
         {/* <img src='https://blocks.astratic.com/img/general-img-square.png' alt='placeholder' className='card-container__image-container__image'/> */}
+        <div className='card-container__category'>
+          {categoryName}
+        </div>
       </div>
 
       <div className='card-container__text-content'>
@@ -133,25 +99,41 @@ export const Card: React.FC<Card> = ({
               }
             }>{author}</a>
           )}
+          <p>le {date}</p>
         </div>
 
         <div className='card-container__descrption-buttons-container'>
-        <div className='card-container__subtitle card-container__description'>
-          <p ref={descriptionRef} >{description}</p>
-        </div>
-        <div className='card-container__button-container'>
+          <div className='card-container__subtitle card-container__description'>
+            <p ref={descriptionRef} >{description}</p>
+          </div>
+          <div className='card-container__button-container'>
           <Button labelKey='Voir plus' type='button' className='card-container__button' onClick={viewMore}/>
-              {FromStories ? (
-                <div className='card-container__icons-container' onClick={() => favoriteToggle(id)} >
-                  <div className="icon">
-                    <i className={isFavorite ? "fa-solid fa-heart" : "fa-regular fa-heart"}></i>
-                  </div>
+            {FromStories ? (
+              <div className='card-container__icons-container' onClick={() => toggleFavorite(id, isFavorite)}>
+                <div className="icon">
+                  <i className={isFavorite ? "fa-solid fa-heart" : "fa-regular fa-heart"}></i>
                 </div>
-              ) : (
-                <span className="material-symbols-outlined">delete</span>
-              )}
-            </div>
+              </div>
+            ) : (
+              <span className="material-symbols-outlined">delete</span>
+            )}
+          </div>
         </div>
+        
+        {isUserCanEdit &&
+          <div className='card-container__right-icons-container'>
+            {/* <div className='card-container__edit-icon' onClick={() => editStory(id)}>
+              <span className="material-symbols-outlined">more_vert</span>
+            </div> */}
+            <div className='card-container__edit-icon' onClick={() => editStory(id)}>
+              <span className="material-symbols-outlined">edit</span>
+            </div>
+            <div className='card-container__edit-icon' onClick={() => setIsDeleteModalOpened(true)}>
+              <span className="material-symbols-outlined">delete</span>
+            </div>
+          </div>
+          }
+
       </div>
     </div>
 

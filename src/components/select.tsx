@@ -1,29 +1,24 @@
-import { useState } from "react"
-import { Select } from "../pages/Stories"
-import './select.css'
 import { t } from "i18next"
+import { Select } from "../api/types"
+import './select.css'
 
 type MySelectProps = {
   items: Select[]
   name: string
-  onSelect: (item: Select) => void
+  setCategoryId: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const MySelect: React.FC<MySelectProps> = ({ items, name, onSelect }) => {
-  const [selectedItem, setSelectedItem] = useState<Select | null>(null);
-
-  const handleSelect = (item: Select | null) => {
-    if (!item) return
-    setSelectedItem(item);
-    onSelect(item);
+export const MySelect: React.FC<MySelectProps> = ({ items, name, setCategoryId }) => {
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => { 
+    setCategoryId(parseInt(e.target.value));
   }
 
   return (
     <>
       <label htmlFor={name}>{t("story.form.categories")}</label>
-      <select className='select' name={name} onChange={() => handleSelect(selectedItem)}>
-        {items.map((item, index) => (
-          <option key={index} value={index}>{item.name}</option>
+      <select className='select' name={name} onChange={handleSelect}>
+        {items.map((item) => (
+          <option key={item.id} value={item.id}>{item.name}</option>
         ))}
       </select>
     </>

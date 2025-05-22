@@ -46,7 +46,7 @@ export const Profil: React.FC = () => {
     }
   };
 
-  const fetchFavorites = async () => {
+  const s = async () => {
     try {
       setIsLoading(true)
       const data = await getFavoritesByUser(Number(userId))
@@ -119,7 +119,7 @@ export const Profil: React.FC = () => {
 
   React.useEffect(() => {
     fetchProfil()
-    fetchFavorites()
+    s()
     fetchStories()
 
     if (defaultLinkRef.current) {
