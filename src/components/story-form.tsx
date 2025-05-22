@@ -4,8 +4,8 @@ import { Form } from "react-router-dom"
 import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
-import { Categories, Story } from "../pages/Stories";
-import { getInformations, getStoryById, onCreateStory } from "../api/api";
+import { Select, Story } from "../pages/Stories";
+import { getCategories, getInformations, getStoryById, onCreateStory } from "../api/api";
 import { MySelect } from "./select";
 import './story-form.css'
 import { USER_ID } from '../context/AuthContext';
@@ -17,59 +17,6 @@ type StoryForm = {
   stories?: Story[]
   setStories: React.Dispatch<React.SetStateAction<Story[]>>
 }
-
-const fakeCategories: Categories[] = [
-  {
-    id: 1,
-    category_name: 'Action',
-    isSelected: false
-  },
-  {
-    id: 2,
-    category_name: 'Adventure',
-    isSelected: false
-  },
-  {
-    id: 3,
-    category_name: 'Comedy',
-    isSelected: false
-  },
-  {
-    id: 4,
-    category_name: 'Crime',
-    isSelected: false
-  },
-  {
-    id: 5,
-    category_name: 'Drama',
-    isSelected: false
-  },
-  {
-    id: 6,
-    category_name: 'Fantasy',
-    isSelected: false
-  },
-  {
-    id: 7,
-    category_name: 'Historical',
-    isSelected: false
-  },
-  {
-    id: 8,
-    category_name: 'Horror',
-    isSelected: false
-  },
-  {
-    id: 9,
-    category_name: 'Mystery',
-    isSelected: false
-  },
-  {
-    id: 10,
-    category_name: 'Romance',
-    isSelected: false
-  }
-]
 
 export const StoryForm: React.FC<StoryForm> = ({
   setIsOpened,
@@ -86,21 +33,32 @@ export const StoryForm: React.FC<StoryForm> = ({
   const [date, setDate] = React.useState(dateNow)
   const [author, setAuthor] = React.useState<string>('')
   const [description, setDescription] = React.useState<string>('')
+  const [categories, setCategories] = React.useState<Select[]>([])
 
   const getCurrentUser = async () => {
     const data = await getInformations(Number(USER_ID))
-    setAuthor(data.pseudo)
+    setAuthor(data[0].pseudo)
   }
 
   const fetchStoryById = async (id: number) => {
     try {
-      const data = await getStoryById(id)
+      const data = await getStoryById(id)         
       setTitle(data.title)
       setDate(data.date)
       setAuthor(data.author)
       setDescription(data.description)
     } catch (error) {
       console.error('Erreur lors de la récupération de l\'histoire :', error)
+    }
+  }
+
+  const getAllCategories = async () => {
+    try {
+      const data = await getCategories()
+      setCategories(data)
+    } catch (error) {
+      console.error('Erreur lors de la récupération des catégories', error);
+      
     }
   }
 
@@ -120,8 +78,9 @@ export const StoryForm: React.FC<StoryForm> = ({
     };
     
     try {
-    await onCreateStory(newStoryData)
-    setStories((prevStories) => [...prevStories, newStoryData ])
+    const newStory = await onCreateStory(newStoryData)
+    const fullStory: Story = { ...newStoryData, id: newStory.insertId };
+    setStories((prevStories) => [...prevStories, fullStory])
     setIsOpened(false)
     } catch (error) {
       console.error('Erreur lors de la création de l\'histoire :', error)
@@ -130,8 +89,9 @@ export const StoryForm: React.FC<StoryForm> = ({
 
   React.useEffect(() => {
     if (isFormEdit && storyId) fetchStoryById(storyId)
-      getCurrentUser()
-  }, [storyId, isFormEdit])
+    getCurrentUser()
+    getAllCategories()
+  }, [storyId, isFormEdit])  
 
   return(
     <div className='form-container'>
@@ -163,7 +123,7 @@ export const StoryForm: React.FC<StoryForm> = ({
           isDisabled={true}
         />
         
-        <MySelect items={fakeCategories} name="categories" onSelect={(item) => console.log(item)} />
+        <MySelect items={categories} name="categories" onSelect={(item) => console.log(item)} />
 
         <TextArea
           textKey={t("home.form.description")}

@@ -32,7 +32,7 @@ export const Profil: React.FC = () => {
     birthday: '',
     city: '',
   })
-
+  
   const isCurrentUser = Number(USER_ID) === Number(userData.id)
 
   if (!userId) return
@@ -40,7 +40,7 @@ export const Profil: React.FC = () => {
   const fetchProfil = async () => {
     try {
       const data = await getInformations(Number(userId))
-      setUserData(data)
+      setUserData(data[0])
     } catch (error) {
       console.error('Erreur lors de la récupération des informations du profil :', error)
     }
@@ -50,7 +50,19 @@ export const Profil: React.FC = () => {
     try {
       setIsLoading(true)
       const data = await getFavoritesByUser(Number(userId))
-      setFavoritesStories(data)
+
+      const newData: Story[] = data.map((story: any) => ({
+        userId: story.user_id,
+        id: story.id,
+        title: story.title,
+        date: (story.date),
+        author: story.author,
+        description: story.description,
+        categoryId: story.category_id,
+        isFavorite: false,
+      }));
+
+      setFavoritesStories(newData)
       setIsLoading(false)
     } catch (error) {
       console.error('Erreur lors de la récupération des favoris :', error)
@@ -61,7 +73,19 @@ export const Profil: React.FC = () => {
     try {
       setIsLoading(true)
       const data = await getStoriesByUser(Number(userId))
-      setPostedStories(data)
+      
+      const newData: Story[] = data.map((story: any) => ({
+        userId: story.user_id,
+        id: story.id,
+        title: story.title,
+        date: (story.date),
+        author: story.author,
+        description: story.description,
+        categoryId: story.category_id,
+        isFavorite: false,
+      }));
+
+      setPostedStories(newData)
       setIsLoading(false)
     } catch (error) {
       console.error('Erreur lors de la récupération des histoires postées :', error)
@@ -102,7 +126,7 @@ export const Profil: React.FC = () => {
       defaultLinkRef.current.classList.add("default");
       previousTargetRef.current = defaultLinkRef.current;
     }
-  }, [])
+  }, [])  
   
   return (
     <>
@@ -196,7 +220,7 @@ export const Profil: React.FC = () => {
         <div style={{ position: 'relative'}}>
           {activeTab === 'posted-stories' ?
           <PostedStories isLoading={isLoading} postedStories={postedStories} setPostedStories={setPostedStories} />
-          : <FavoriteStories isLoading={isLoading} favoritesStories={favoritesStories} />}
+          : <FavoriteStories isLoading={isLoading} favoritesStories={favoritesStories} setFavoritesStories={setFavoritesStories} />}
         </div>
       </div>
 

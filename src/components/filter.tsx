@@ -1,11 +1,11 @@
 import { MenuItem } from "react-aria-components"
-import { Categories } from "../pages/Stories"
+import { Select } from "../pages/Stories"
 import { CustomMenu } from "./menu"
 import './filter.css'
 
 type FilterProps = {
   title: string,
-  items: Categories[]
+  items: Select[]
   handleAction: (id: number) => void
 }
 
@@ -19,7 +19,7 @@ export const Filter: React.FC<FilterProps> = ({ title, items, handleAction }) =>
             key={item.id}
             onAction={() => handleAction(item.id)}
           >
-            {item.category_name}
+            {item.name}
           </MenuItem>
         )}
       </CustomMenu>

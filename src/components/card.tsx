@@ -1,17 +1,19 @@
 import React from 'react'
 import './card.css'
 import { t } from 'i18next'
-import { getFavoriteByStory, postInFavorites, removeFavorite } from '../api/api'
+import { getCategoryName, postInFavorites, removeFavorite } from '../api/api'
 import { Button } from './button'
 import { USER_ID } from '../context/AuthContext'
-import { Story } from '../pages/Stories'
+import { Story } from "../api/types"
 import { MyModal } from './modal'
 import { ConfirmModal } from './confirm-modal'
+import { useFavorite } from '../hooks/useFavorite'
 
 type Card = {
   userId: number
   id: number
   title: string
+  categoryId: number
   date: string
   author: string
   description: string
@@ -21,7 +23,6 @@ type Card = {
   setIsFormEdit: React.Dispatch<React.SetStateAction<boolean>>
   updateStoryFavorite: (storyId: number, isFav: boolean) => void
   isFavorite: boolean
-  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>
   setStories: React.Dispatch<React.SetStateAction<Story[]>>
   FromStories?: boolean
 }
@@ -30,6 +31,7 @@ export const Card: React.FC<Card> = ({
   userId,
   id,
   title,
+  categoryId,
   date,
   author,
   description,
@@ -39,14 +41,14 @@ export const Card: React.FC<Card> = ({
   setIsFormEdit,
   updateStoryFavorite,
   isFavorite,
-  setIsFavorite,
   setStories,
   FromStories
 }) => {
-
   const [isUserCanEdit, setIsUserCanEdit] = React.useState<boolean>(false)
   const [isDeleteModalOpened, setIsDeleteModalOpened] = React.useState<boolean>(false)
   const descriptionRef = React.useRef<HTMLParagraphElement>(null)
+  const [categoryName, setCategoryName] = React.useState<string>('')
+  const { setIsFavorite } = useFavorite(id)  
 
   const favoriteToggle = async (storyId: number) => {
     const newFavoriteState = !isFavorite
@@ -66,34 +68,37 @@ export const Card: React.FC<Card> = ({
     }
   };
 
+  const fetchCategoryId = async (categoryId: number) => {
+    const category = await getCategoryName(categoryId)
+    setCategoryName(category.name)
+  }
+
   const editStory = (storyId: number) => {
     setIsFormOpened(true)
     setIsFormEdit(true)
     setStoryId(storyId)
   }
 
-
-
   const viewMore = () => {
     setStoryId(id)
     setIsStoryOpened(true)
+    
   }
 
-  const isUserLikedStory = async (storyId: number) => {
-    const data = await getFavoriteByStory(storyId)
-    setIsFavorite(data.length > 0)
-  }
-
-    React.useEffect(() => {
-    isUserLikedStory(id)
+  React.useEffect(() => {
     if (Number(USER_ID) === userId) {
       setIsUserCanEdit(true)
     }
-  }, [id])
+    fetchCategoryId(categoryId)
+  }, [USER_ID, userId, isUserCanEdit, categoryId])
 
   return(
     <>
     <div className='card-container'>
+
+      <div className='card-container__category'>
+        {categoryName}
+      </div>
 
       {isUserCanEdit &&
       <div className='card-container__right-icons-container'>

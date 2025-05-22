@@ -35,11 +35,11 @@ export const Login: React.FC = () => {
     try {
       const response = await onSignInValidate(loginData);
       
-      if (response.token) {
-        localStorage.setItem("authToken", response.token);
-        localStorage.setItem("userId", response.userId);
-        login.login(response.token);
-        window.location.href = '/profil/' + response.userId
+      if (response.status === "success") {
+        localStorage.setItem("authToken", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
+        login.login(response.data.token);
+        window.location.href = '/profil/' + response.data.userId
       } else {
         console.error("Authentification échouée : Pas de token reçu.");
       }

@@ -1,6 +1,6 @@
 import React from "react"
 import { onDeleteStory } from "../api/api"
-import { Story } from "../pages/Stories"
+import { Story } from "../api/types"
 import { t } from "i18next"
 import './confirm-modal.css'
 
@@ -15,7 +15,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({ setIsDeleteModalOpen
   const deleteStory = (storyId: number) => {
     onDeleteStory(storyId)
     setStories((prevStories) => prevStories.filter((story) => story.id !== storyId))
-    setIsDeleteModalOpened
+    setIsDeleteModalOpened(false)
   }
 
   return (

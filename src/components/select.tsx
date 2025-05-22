@@ -1,18 +1,18 @@
 import { useState } from "react"
-import { Categories } from "../pages/Stories"
+import { Select } from "../pages/Stories"
 import './select.css'
 import { t } from "i18next"
 
 type MySelectProps = {
-  items: Categories[]
+  items: Select[]
   name: string
-  onSelect: (item: Categories) => void
+  onSelect: (item: Select) => void
 }
 
 export const MySelect: React.FC<MySelectProps> = ({ items, name, onSelect }) => {
-  const [selectedItem, setSelectedItem] = useState<Categories | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Select | null>(null);
 
-  const handleSelect = (item: Categories | null) => {
+  const handleSelect = (item: Select | null) => {
     if (!item) return
     setSelectedItem(item);
     onSelect(item);
@@ -23,7 +23,7 @@ export const MySelect: React.FC<MySelectProps> = ({ items, name, onSelect }) => 
       <label htmlFor={name}>{t("story.form.categories")}</label>
       <select className='select' name={name} onChange={() => handleSelect(selectedItem)}>
         {items.map((item, index) => (
-          <option key={index} value={index}>{item.category_name}</option>
+          <option key={index} value={index}>{item.name}</option>
         ))}
       </select>
     </>
