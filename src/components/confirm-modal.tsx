@@ -1,8 +1,8 @@
 import React from "react"
-import { onDeleteStory } from "../api/auth"
 import { Story } from "../api/types"
 import { t } from "i18next"
 import './confirm-modal.css'
+import { onDeleteStory } from "../api/stories"
 
 type ConfirmModalProps = {
   setIsDeleteModalOpened: React.Dispatch<React.SetStateAction<boolean>>
