@@ -67,7 +67,8 @@
       "followAuthor": "Follow the author",
       "unfollowAuthor": "Unfollow the author",
       "message": "Message",
-      "validation": "Add"
+      "validation": "Add",
+      "edit": "Update"
     },
     "form": {
       "button": {

@@ -64,7 +64,8 @@
       "followAuthor": "Suivre l'auteur",
       "unfollowAuthor": "Se désabonner de l'auter",
       "message": "Message",
-      "validation": "Ajouter"
+      "validation": "Ajouter",
+      "edit": "Modifier"
     },
     "form": {
       "button": {

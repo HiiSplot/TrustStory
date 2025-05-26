@@ -2,11 +2,12 @@ import React from "react";
 import { PageLoader } from "../components/page-loader";
 import { MyModal } from "../components/modal";
 import { StoryForm } from "../components/story-form";
-import { Story } from "./Stories";
 import { t } from "i18next";
-import './style/posted-stories.css'
 import { Grid } from "../components/grid";
 import { StoryView } from "../components/story-view";
+import { Story } from "../api/types";
+import { useFavoriteStories } from "../hooks/useFavorite";
+import './style/posted-stories.css'
 
 type PostedStory = {
   isLoading: boolean
@@ -15,6 +16,7 @@ type PostedStory = {
 }
 
 export const PostedStories: React.FC<PostedStory> = ({ isLoading, postedStories, setPostedStories }) => {
+  const { stories, setStories, updateStoryFavorite, toggleFavorite } = useFavoriteStories(postedStories)
   const [isFormEdit, setIsFormEdit] = React.useState(false)
   const [isFormOpened, setIsFormOpened] = React.useState(false)
   const [isStoryOpened, setIsStoryOpened] = React.useState(false)
@@ -25,15 +27,17 @@ export const PostedStories: React.FC<PostedStory> = ({ isLoading, postedStories,
       <div className="posted-stories-container">
         {isLoading ? (
           <PageLoader />
-        ) : postedStories.length > 0 ? ( 
+        ) : stories.length > 0 ? ( 
           <Grid
-            items={postedStories}
+            items={stories}
             aria-label="Stories list"
             setStoryId={setStoryId}
             setIsStoryOpened={setIsStoryOpened}
             setIsFormOpened={setIsFormOpened}
             setIsFormEdit={setIsFormEdit}
-            setStories={setPostedStories}
+            setStories={setStories}
+            updateStoryFavorite={updateStoryFavorite}
+            toggleFavorite={toggleFavorite}
             />
         ) : (
           <div className="no-stories-container">
@@ -46,8 +50,9 @@ export const PostedStories: React.FC<PostedStory> = ({ isLoading, postedStories,
       <MyModal isOpened={isStoryOpened} setIsOpened={setIsStoryOpened}>
         <StoryView
           storyId={storyId}
-          stories={postedStories}
+          stories={stories}
           setIsOpened={setIsStoryOpened}
+          toggleFavorite={toggleFavorite}
         />
       </MyModal>
 

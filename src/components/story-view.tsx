@@ -9,8 +9,6 @@ type StoryView = {
   stories: Story[]
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
   toggleFavorite: (storyId: number, currentFav: boolean) => void
-  favoritesCount: number
-  setFavoritesCount: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const StoryView: React.FC<StoryView> = ({
@@ -31,7 +29,7 @@ export const StoryView: React.FC<StoryView> = ({
       setIconButtonName('add')
       setIconPersonName('person_add')
     }
-  } 
+  }
 
   return (
     <div className='story-container'>

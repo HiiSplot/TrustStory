@@ -1,15 +1,15 @@
 import React from "react"
 import { t } from "i18next"
 import { Title } from "../components/title"
-import { getFavoritesByUser, getInformations, getStoriesByUser } from "../api/api"
+import { getAllFavoritesByStoryId, getFavoriteByStory, getFavoritesByUser, getInformations, getStoriesByUser } from "../api/api"
 import { IconButton } from "../components/icon-button"
 import { FavoriteStories } from "./FavoriteStories"
 import { PostedStories } from "./PostedStories"
-import { Story } from "./Stories"
 import { useParams } from "react-router-dom"
+import { USER_ID } from "../context/AuthContext"
 import './style/form.css'
 import './style/profil.css'
-import { USER_ID } from "../context/AuthContext"
+import { Story } from "../api/types"
 
 export const Profil: React.FC = () => {
   const { userId } = useParams()
@@ -46,21 +46,29 @@ export const Profil: React.FC = () => {
     }
   };
 
-  const s = async () => {
+  const fetchFavoritesStories = async () => {
     try {
       setIsLoading(true)
       const data = await getFavoritesByUser(Number(userId))
 
-      const newData: Story[] = data.map((story: any) => ({
-        userId: story.user_id,
-        id: story.id,
-        title: story.title,
-        date: (story.date),
-        author: story.author,
-        description: story.description,
-        categoryId: story.category_id,
-        isFavorite: false,
-      }));
+      const newData: Story[] = await Promise.all(
+        data.map(async (story: any) => {
+          const favorites = await getAllFavoritesByStoryId(story.id)
+          const isFavorite = await getFavoriteByStory(story.id)
+          
+          return {
+            userId: story.user_id,
+            id: story.id,
+            title: story.title,
+            date: story.date,
+            author: story.author,
+            description: story.description,
+            categoryId: story.category_id,
+            isFavorite: isFavorite,
+            favoritesCount: favorites.length
+          }
+        })
+      )    
 
       setFavoritesStories(newData)
       setIsLoading(false)
@@ -69,22 +77,29 @@ export const Profil: React.FC = () => {
     }
   }
 
-  const fetchStories = async () => {
+  const fetchPostedStories = async () => {
     try {
       setIsLoading(true)
       const data = await getStoriesByUser(Number(userId))
       
-      const newData: Story[] = data.map((story: any) => ({
-        userId: story.user_id,
-        id: story.id,
-        title: story.title,
-        date: (story.date),
-        author: story.author,
-        description: story.description,
-        categoryId: story.category_id,
-        isFavorite: false,
-      }));
-
+      const newData: Story[] = await Promise.all(
+        data.map(async (story: any) => {
+          const favorites = await getAllFavoritesByStoryId(story.id)
+          const isFavorite = await getFavoriteByStory(story.id)
+          
+          return {
+            userId: story.user_id,
+            id: story.id,
+            title: story.title,
+            date: story.date,
+            author: story.author,
+            description: story.description,
+            categoryId: story.category_id,
+            isFavorite: isFavorite,
+            favoritesCount: favorites.length
+          }
+        })
+      )
       setPostedStories(newData)
       setIsLoading(false)
     } catch (error) {
@@ -119,8 +134,8 @@ export const Profil: React.FC = () => {
 
   React.useEffect(() => {
     fetchProfil()
-    s()
-    fetchStories()
+    fetchFavoritesStories()
+    fetchPostedStories()
 
     if (defaultLinkRef.current) {
       defaultLinkRef.current.classList.add("default");
@@ -219,8 +234,16 @@ export const Profil: React.FC = () => {
 
         <div style={{ position: 'relative'}}>
           {activeTab === 'posted-stories' ?
-          <PostedStories isLoading={isLoading} postedStories={postedStories} setPostedStories={setPostedStories} />
-          : <FavoriteStories isLoading={isLoading} favoritesStories={favoritesStories} setFavoritesStories={setFavoritesStories} />}
+          <PostedStories
+            isLoading={isLoading}
+            postedStories={postedStories}
+            setPostedStories={setPostedStories}
+          />
+          : <FavoriteStories
+            isLoading={isLoading}
+            favoritesStories={favoritesStories}
+            setFavoritesStories={setFavoritesStories}
+            />}
         </div>
       </div>
 

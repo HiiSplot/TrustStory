@@ -1,12 +1,13 @@
 import { t } from "i18next"
 import React from "react"
 import { PageLoader } from "../components/page-loader"
-import { Story } from "./Stories"
-import { Grid } from "../components/grid"
-import './style/favorite-stories.css'
 import { MyModal } from "../components/modal"
 import { StoryView } from "../components/story-view"
 import { StoryForm } from "../components/story-form"
+import { Story } from "../api/types"
+import { Grid } from "../components/grid"
+import './style/favorite-stories.css'
+import { useFavoriteStories } from "../hooks/useFavorite"
 
 type FavoriteStory = {
   isLoading: boolean
@@ -15,6 +16,7 @@ type FavoriteStory = {
 }
 
 export const FavoriteStories: React.FC<FavoriteStory> = ({ isLoading, favoritesStories, setFavoritesStories }) => {
+  const { stories, setStories, updateStoryFavorite, toggleFavorite } = useFavoriteStories(favoritesStories)
   const [isFormEdit, setIsFormEdit] = React.useState(false)
   const [isFormOpened, setIsFormOpened] = React.useState(false)
   const [isStoryOpened, setIsStoryOpened] = React.useState(false)
@@ -22,19 +24,20 @@ export const FavoriteStories: React.FC<FavoriteStory> = ({ isLoading, favoritesS
   
   return (
     <div>
-      {/* <Title title={t("favorite.title")} /> */}
       <div className="favorite-stories-container">
         {isLoading ? (
           <PageLoader />
-        ) : favoritesStories.length > 0 ? ( 
+        ) : stories.length > 0 ? ( 
           <Grid
-            items={favoritesStories}
+            items={stories}
             aria-label="Stories list"
             setStoryId={setStoryId}
             setIsStoryOpened={setIsStoryOpened}
             setIsFormOpened={setIsFormOpened}
             setIsFormEdit={setIsFormEdit}
-            setStories={setFavoritesStories}
+            setStories={setStories}
+            updateStoryFavorite={updateStoryFavorite}
+            toggleFavorite={toggleFavorite}
           />
         ) : (
           <div className="no-stories-container">
@@ -47,8 +50,9 @@ export const FavoriteStories: React.FC<FavoriteStory> = ({ isLoading, favoritesS
       <MyModal isOpened={isStoryOpened} setIsOpened={setIsStoryOpened}>
         <StoryView
           storyId={storyId}
-          stories={favoritesStories}
+          stories={stories}
           setIsOpened={setIsStoryOpened}
+          toggleFavorite={toggleFavorite}
         />
       </MyModal>
 

@@ -1,51 +1,55 @@
-import { useEffect, useState, useCallback } from "react"
-import { getFavoriteByStory, postInFavorites, removeFavorite } from "../api/api"
+import React from "react"
+import { postInFavorites, removeFavorite } from "../api/api"
+import { Story } from "../api/types"
 
-export const useFavorite = (storyId: number) => {
-  const [isFavorite, setIsFavorite] = useState(false)
-  const [favoritesCount, setFavoritesCount] = useState(0)
-  const [loading, setLoading] = useState(true)
+export const useFavoriteStories = (initialStories: Story[]) => {
+  const [stories, setStories] = React.useState<Story[]>(initialStories)
 
-  useEffect(() => {
-    const fetchFavorite = async () => {
-      try {
-        const data = await getFavoriteByStory(storyId)
-        setIsFavorite(data.length > 0)
-        setFavoritesCount(data.length)
-      } catch (error) {
-        console.error("Erreur lors du chargement des favoris", error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  React.useEffect(() => {
+    setStories(initialStories)
+  }, [initialStories])
 
-    fetchFavorite()
-  }, [storyId])
+  const updateStoryFavorite = (storyId: number, isFav: boolean) => {
+    setStories(prev =>
+      prev.map(story =>
+        story.id === storyId ? { ...story, isFavorite: isFav } : story
+      )
+    )
+  }
 
-  const toggleFavorite = useCallback(async () => {
-    const newFavoriteState = !isFavorite
-    setIsFavorite(newFavoriteState)
-    setFavoritesCount((prev) => newFavoriteState ? prev + 1 : prev - 1)
+  const toggleFavorite = async (storyId: number, currentFav: boolean) => {
+    const newFav = !currentFav
+    updateStoryFavorite(storyId, newFav)
+
+    setStories(prevStories =>
+      prevStories.map(story =>
+        story.id === storyId
+          ? {
+              ...story,
+              favoritesCount: newFav
+                ? (story.favoritesCount || 0) + 1
+                : Math.max((story.favoritesCount || 1) - 1, 0),
+            }
+          : story
+      )
+    )
 
     try {
-      if (newFavoriteState) {
+      if (newFav) {
         await postInFavorites(storyId)
       } else {
         await removeFavorite(storyId)
       }
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour des favoris", error)
-      setIsFavorite(!newFavoriteState)
-      setFavoritesCount((prev) => newFavoriteState ? prev - 1 : prev + 1)
+    } catch (err) {
+      console.error("Erreur favori", err)
+      updateStoryFavorite(storyId, !newFav)
     }
-  }, [isFavorite, storyId])
+  }
 
   return {
-    isFavorite,
-    setIsFavorite,
-    favoritesCount,
-    setFavoritesCount,
+    stories,
+    setStories,
+    updateStoryFavorite,
     toggleFavorite,
-    loading,
   }
 }

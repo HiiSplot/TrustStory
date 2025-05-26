@@ -22,7 +22,6 @@ export const StoryForm: React.FC<StoryForm> = ({
   setIsOpened,
   isFormEdit,
   storyId,
-  stories,
   setStories
 }) => {
   const { t } = useTranslation()
@@ -35,6 +34,7 @@ export const StoryForm: React.FC<StoryForm> = ({
   const [description, setDescription] = React.useState<string>('')
   const [categories, setCategories] = React.useState<Select[]>([])
   const [categoryId, setCategoryId] = React.useState<number>(1)
+  const labelKey = isFormEdit ? t("story.button.edit") : t("story.button.validation")
 
   const getCurrentUser = async () => {
     const data = await getInformations(Number(USER_ID))
@@ -47,6 +47,7 @@ export const StoryForm: React.FC<StoryForm> = ({
       setTitle(data.title)
       setDate(data.date)
       setAuthor(data.author)
+      setCategoryId(data.category_id)
       setDescription(data.description)
     } catch (error) {
       console.error('Erreur lors de la récupération de l\'histoire :', error)
@@ -59,13 +60,13 @@ export const StoryForm: React.FC<StoryForm> = ({
       setCategories(data)
     } catch (error) {
       console.error('Erreur lors de la récupération des catégories', error);
-      
     }
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const userId: number = Number(USER_ID)
+    const favoritesCount = 0
 
     const newStoryData: Omit<Story, 'id'> = {
       title,
@@ -74,7 +75,8 @@ export const StoryForm: React.FC<StoryForm> = ({
       description,
       categoryId,
       userId,
-      isFavorite: false
+      isFavorite: false,
+      favoritesCount,
     };
     
     try {
@@ -87,12 +89,15 @@ export const StoryForm: React.FC<StoryForm> = ({
     }
   }
 
+  console.log(date);
+  
+
   React.useEffect(() => {
     if (isFormEdit && storyId) fetchStoryById(storyId)
     getCurrentUser()
     getAllCategories()
   }, [storyId, isFormEdit])
-
+  
   return(
     <div className='form-container'>
       <div className="form-container__close-button" onClick={() => setIsOpened(false)}>
@@ -104,7 +109,7 @@ export const StoryForm: React.FC<StoryForm> = ({
           textKey={t("home.form.title")}
           type="text"
           name="title"
-          value={title}
+          value={isFormEdit ? title : ''}
           onChange={(e) => setTitle(e.target.value)}
         />
         <Input
@@ -112,7 +117,7 @@ export const StoryForm: React.FC<StoryForm> = ({
           type="date"
           name="date"
           max={dateNow.toString()}
-          value={date}
+          value={isFormEdit ? new Date(date).toISOString().split('T')[0] : ''}
           onChange={(e) => setDate(e.target.value)}
         />
         <Input
@@ -123,12 +128,12 @@ export const StoryForm: React.FC<StoryForm> = ({
           isDisabled={true}
         />
         
-        <MySelect items={categories} name="categories" setCategoryId={setCategoryId} />
+        <MySelect items={categories} name="categories" categoryId={categoryId} setCategoryId={setCategoryId} />
 
         <TextArea
           textKey={t("home.form.description")}
           name="description"
-          value={description}
+          value={isFormEdit ? description : ''}
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className='form-container__buttons-container'>
@@ -139,7 +144,7 @@ export const StoryForm: React.FC<StoryForm> = ({
             className="form-container__buttons-container__cancel-button"
           />
           <Button
-            labelKey={t("story.button.validation")}
+            labelKey={labelKey}
             type="submit"
           />
         </div>
