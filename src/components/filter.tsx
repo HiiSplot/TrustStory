@@ -1,6 +1,6 @@
 import { MenuItem } from "react-aria-components"
-import { Select } from "../pages/Stories"
 import { CustomMenu } from "./menu"
+import { Select } from "../api/types"
 import './filter.css'
 
 type FilterProps = {

@@ -1,4 +1,4 @@
-const PORT = 3060
+import { PORT } from "../App"
 
 export const getFavoritesByUser = async (userId: number) => {
   try {

@@ -96,7 +96,7 @@ export const Profil: React.FC = () => {
             author: story.author,
             description: story.description,
             categoryId: story.category_id,
-            isFavorite: isFavorite,
+            isFavorite: isFavorite.length > 0,
             favoritesCount: favorites.length
           }
         })

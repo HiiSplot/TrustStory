@@ -1,6 +1,5 @@
+import { PORT } from "../App"
 import { USER_ID } from "../context/AuthContext"
-
-const PORT = 3060
 
 export const postInFavorites = async (storyId: number) => {
   try {

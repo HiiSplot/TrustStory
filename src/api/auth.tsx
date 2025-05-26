@@ -1,4 +1,4 @@
-const PORT = 3060
+import { PORT } from "../App";
 
 interface SignUpData {
   firstName: string;

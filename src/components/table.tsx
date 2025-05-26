@@ -1,8 +1,8 @@
 import React from "react"
 import { Cell, Column, Row, Table, TableBody, TableHeader } from "react-aria-components"
-import './table.css'
 import { postInFavorites } from "../api/favorites"
 import { Story } from "../api/types"
+import './table.css'
 
 type MyTableProps = {
   items: Story[]

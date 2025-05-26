@@ -1,6 +1,5 @@
+import { PORT } from "../App";
 import { InsertResult, Story } from "./types";
-
-const PORT = 3060
 
 type Filters = {
   filters?: number[]; // ex: "category_id:2,author:Jean"
