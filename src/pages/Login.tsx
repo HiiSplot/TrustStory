@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Form, Link } from "react-router-dom"
 import { Input } from "../components/input"
 import { Button } from "../components/button"
-import { onSignInValidate } from "../api/api"
+import { onSignInValidate } from "../api/auth"
 import { useAuth } from "../context/AuthContext"
 import './style/form.css'
 

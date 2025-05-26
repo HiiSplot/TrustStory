@@ -1,7 +1,6 @@
 import React from "react"
 import { t } from "i18next"
 import { Title } from "../components/title"
-import { getAllFavoritesByStoryId, getFavoriteByStory, getFavoritesByUser, getInformations, getStoriesByUser } from "../api/api"
 import { IconButton } from "../components/icon-button"
 import { FavoriteStories } from "./FavoriteStories"
 import { PostedStories } from "./PostedStories"
@@ -10,6 +9,8 @@ import { USER_ID } from "../context/AuthContext"
 import './style/form.css'
 import './style/profil.css'
 import { Story } from "../api/types"
+import { getFavoritesByUser, getInformations, getStoriesByUser } from "../api/profil"
+import { getAllFavoritesByStoryId, getFavoriteByStory } from "../api/favorites"
 
 export const Profil: React.FC = () => {
   const { userId } = useParams()

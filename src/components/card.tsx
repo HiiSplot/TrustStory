@@ -1,12 +1,12 @@
 import React from 'react'
 import { t } from 'i18next'
-import { getCategoryName } from '../api/api'
 import { Button } from './button'
 import { USER_ID } from '../context/AuthContext'
 import { Story } from "../api/types"
 import { MyModal } from './modal'
 import { ConfirmModal } from './confirm-modal'
 import './card.css'
+import { getCategoryName } from '../api/categories'
 
 type Card = {
   userId: number

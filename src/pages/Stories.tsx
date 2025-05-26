@@ -6,12 +6,14 @@ import { StoryForm } from "../components/story-form"
 import { Button } from "react-aria-components"
 import { IconButton } from "../components/icon-button"
 import { Filter } from "../components/filter"
-import { getAllFavoritesByStoryId, getCategories, getFavoriteByStory, getStories } from "../api/api"
 import { PageLoader } from "../components/page-loader"
 import { StoryView } from "../components/story-view"
 import { Grid } from "../components/grid"
 import { MyTable } from "../components/table"
 import { useFavoriteStories } from "../hooks/useFavorite"
+import { getCategories } from "../api/categories"
+import { getStories } from "../api/stories"
+import { getAllFavoritesByStoryId, getFavoriteByStory } from "../api/favorites"
 import '../components/filter.css'
 import './style/stories.css'
 

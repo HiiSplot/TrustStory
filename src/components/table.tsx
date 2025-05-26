@@ -1,7 +1,7 @@
 import React from "react"
 import { Cell, Column, Row, Table, TableBody, TableHeader } from "react-aria-components"
 import { Story } from "../pages/Stories"
-import { postInFavorites } from "../api/api"
+import { postInFavorites } from "../api/auth"
 import './table.css'
 
 type MyTableProps = {

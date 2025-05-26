@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next"
 import { Form, Link, useNavigate } from "react-router-dom";
-import { onSignUpValidate } from "../api/api";
+import { onSignUpValidate } from "../api/auth";
 import { Input } from "../components/input";
 import { Button } from "../components/button";
 import './style/form.css'

@@ -4,11 +4,13 @@ import { Form } from "react-router-dom"
 import { Button } from './button';
 import { TextArea } from "./text-area";
 import React from "react";
-import { getCategories, getInformations, getStoryById, onCreateStory } from "../api/api";
 import { MySelect } from "./select";
 import { USER_ID } from '../context/AuthContext';
 import { Select, Story } from "../api/types";
 import './story-form.css'
+import { getInformations } from "../api/profil";
+import { getStoryById, onCreateStory } from "../api/stories";
+import { getCategories } from "../api/categories";
 
 type StoryForm = {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>
@@ -89,9 +91,6 @@ export const StoryForm: React.FC<StoryForm> = ({
     }
   }
 
-  console.log(date);
-  
-
   React.useEffect(() => {
     if (isFormEdit && storyId) fetchStoryById(storyId)
     getCurrentUser()
@@ -109,7 +108,7 @@ export const StoryForm: React.FC<StoryForm> = ({
           textKey={t("home.form.title")}
           type="text"
           name="title"
-          value={isFormEdit ? title : ''}
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <Input
@@ -117,7 +116,7 @@ export const StoryForm: React.FC<StoryForm> = ({
           type="date"
           name="date"
           max={dateNow.toString()}
-          value={isFormEdit ? new Date(date).toISOString().split('T')[0] : ''}
+          value={new Date(date).toISOString().split('T')[0]}
           onChange={(e) => setDate(e.target.value)}
         />
         <Input
@@ -133,7 +132,7 @@ export const StoryForm: React.FC<StoryForm> = ({
         <TextArea
           textKey={t("home.form.description")}
           name="description"
-          value={isFormEdit ? description : ''}
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className='form-container__buttons-container'>

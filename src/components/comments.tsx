@@ -1,7 +1,7 @@
 import React from "react"
 import { TextArea } from "./text-area";
 import { Button } from "./button";
-import { getUser } from "../api/api";
+import { getUser } from "../api/auth";
 import { t } from "i18next";
 import { USER_ID } from "../context/AuthContext";
 import './comments.css'

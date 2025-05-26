@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next"
 import { Comments } from "./comments";
-import './story-view.css'
 import { Story } from "../api/types";
+import './story-view.css'
 
 type StoryView = {
   storyId: number

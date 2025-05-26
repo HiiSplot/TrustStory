@@ -1,6 +1,6 @@
 import React from "react"
-import { postInFavorites, removeFavorite } from "../api/api"
 import { Story } from "../api/types"
+import { postInFavorites, removeFavorite } from "../api/favorites"
 
 export const useFavoriteStories = (initialStories: Story[]) => {
   const [stories, setStories] = React.useState<Story[]>(initialStories)
